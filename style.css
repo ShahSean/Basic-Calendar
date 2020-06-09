@@ -6,6 +6,13 @@ html {
 *:before {
   box-sizing: inherit;
 }
+body {
+  background-image: url("./img/background.jpg");
+}
+.wrapper {
+  display: grid;
+  grid-template-columns: ;
+}
 .cal-container {
   border: 3 px;
   border-style: dashed;
