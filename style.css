@@ -1,37 +1,47 @@
-html{
-    box-sizing: border-box;
+html {
+  box-sizing: border-box;
 }
-
 *,
 *:after,
-*:before{
-    box-sizing: inherit;
+*:before {
+  box-sizing: inherit;
 }
-.cal-container{
-    border: 3 px;
-    border-style: dashed;
-    height: 200px;
-    width:300px;
-    border-color: lightcoral;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    align-items: stretch;    
-}
-
-[class*='week-']{
-    display: flex;
-    flex-basis: 10% ;
-    justify-content: space-evenly;
-    align-items: stretch;
-    color: rgb(60, 168, 204);
-    border-bottom: lightgreen;
+.cal-container {
+  border: 3 px;
+  border-style: dashed;
+  height: 200px;
+  width: 300px;
+  border-color: lightcoral;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: stretch;
 }
 
-.days-name{
-    color: rgb(177, 78, 243);
+[class*="week-"] {
+  display: flex;
+  flex-basis: 10%;
+  justify-content: space-evenly;
+  align-items: stretch;
+  color: rgb(60, 168, 204);
+  border-bottom: lightgreen;
 }
 
-.weekends{
-    color:lightgrey;
+.days-name {
+  color: rgb(177, 78, 243);
+}
+
+.weekends {
+  color: rgb(190, 186, 186);
+}
+button {
+  border: solid;
+  border-radius: 42%;
+  border: 1px;
+}
+button:hover {
+  background-color: lavender;
+}
+button:active {
+  background-color: rgb(250, 222, 177);
 }
