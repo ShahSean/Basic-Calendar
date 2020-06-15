@@ -1,10 +1,7 @@
 # Readme
-	
-	This is just a simple personal project.
-	
 
+    This is just a simple personal project.
 
 ## Preview
-[-->](https://htmlpreview.github.io/?https://github.com/ShahSean/Basic-Calendar/blob/master/index.html)
 
-
+[Click Here](https://htmlpreview.github.io/?https://github.com/ShahSean/Basic-Calendar/blob/master/index.html)
