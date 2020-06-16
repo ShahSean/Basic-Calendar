@@ -1,3 +1,20 @@
+html {
+  box-sizing: border-box;
+}
+*,
+*:after,
+*:before {
+  box-sizing: inherit;
+}
 body {
-  background-image: url("");
+  background-color: rgba(197, 224, 233, 0.411);
+}
+
+.to-do-container {
+  margin: 5% 20%;
+  border: 2px solid red;
+  border-radius: 10%;
+  justify-content: center;
+  text-align: center;
+  background-color: rgba(240, 240, 211, 0.685);
 }
