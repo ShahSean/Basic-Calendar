@@ -12,6 +12,7 @@ body {
 
 .to-do-container {
   margin: 5% 20%;
+  padding: 2% 4%;
   border: 2px solid red;
   border-radius: 10%;
   justify-content: center;
