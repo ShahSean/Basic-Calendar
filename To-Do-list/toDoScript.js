@@ -31,7 +31,7 @@ function addTask(text) {
 
   newTask.style.listStyleType = "none";
   newTask.style.border = "1px solid grey";
-  newTask.style.borderRadius = "10%";
+  newTask.style.borderRadius = "0.7em";
 
   delBtn.style.margin = "2px 6px";
   delBtn.appendChild(document.createTextNode("Delete"));
@@ -47,18 +47,12 @@ function addTask(text) {
 
 function removeHandler(e) {
   const removeIndex = e.target.parentElement.getAttribute("data-id");
+  console.log(removeIndex);
 
   if (confirm("Are you sure ?!")) {
     var elem = e.target.parentElement.parentElement;
     elem.removeChild(e.target.parentElement);
-    // console.log(
-    //   "Element is : " + JSON.stringify(e.target.parentElement.innerText)
-    // );
-    // console.log(toDo.indexOf(e.target.parentElement.innerText));
-    // let filArr = toDo.filter(function fun(value, index, arr){
-    // }  )
-  } else {
-    console.log("User was Not Sure");
+    toDo.splice(removeIndex, 1);
   }
 }
 

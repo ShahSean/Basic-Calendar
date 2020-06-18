@@ -14,7 +14,7 @@ body {
   margin: 5% 20%;
   padding: 2% 4%;
   border: 2px solid red;
-  border-radius: 10%;
+  border-radius: 0.7em;
   justify-content: center;
   text-align: center;
   background-color: rgba(240, 240, 211, 0.685);
