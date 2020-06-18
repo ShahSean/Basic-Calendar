@@ -31,9 +31,8 @@ function addTask(text) {
 
 function removeHandler(e) {
   if (confirm("Are you sure ?!")) {
-    var elem = e.target.parentElement;
-    elem.removeChild(e.target);
-    // console.log("the task " + e);
+    var elem = e.target.parentElement.parentElement;
+    elem.removeChild(e.target.parentElement);
   } else {
     console.log("Not Sure");
   }
