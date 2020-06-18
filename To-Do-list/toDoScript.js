@@ -1,3 +1,5 @@
+const toDo = [];
+
 var usrInput = document.getElementById("usr-input");
 let subBtn = document.querySelector("#submit-btn");
 
@@ -11,6 +13,8 @@ function addBtnClickHandler() {
 }
 
 function addTask(text) {
+  let data = { text: text, isDone: false };
+  toDo.push(data);
   let newTask = document.createElement("li");
   let delBtn = document.createElement("button");
   delBtn.addEventListener("click", removeHandler);
@@ -27,6 +31,7 @@ function addTask(text) {
   newTask.appendChild(delBtn);
 
   document.querySelector("body > div").appendChild(newTask);
+  console.log(JSON.stringify(toDo));
 }
 
 function removeHandler(e) {
@@ -34,9 +39,9 @@ function removeHandler(e) {
     var elem = e.target.parentElement.parentElement;
     elem.removeChild(e.target.parentElement);
   } else {
-    console.log("Not Sure");
+    console.log("User was Not Sure");
   }
 }
 
-// Delete Button
 // Storing them in local storage for further access.
+// Add a search bar
