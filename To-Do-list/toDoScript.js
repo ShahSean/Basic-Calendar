@@ -1,13 +1,18 @@
-const toDo = [];
+if (localStorage.getItem("toDo")) {
+  let toDo = JSON.parse(localStorage.getItem("toDo"));
+  console.log("I'm here");
+} else {
+  let toDo = [];
+  console.log("I'm in 2");
+}
 
+let i = 0;
 var usrInput = document.getElementById("usr-input");
 let subBtn = document.querySelector("#submit-btn");
 
-// Submit Button Event Listener
+// Submit Button Event Listeners
 subBtn.addEventListener("click", addBtnClickHandler);
 usrInput.addEventListener("keypress", addKeyPressHandler);
-
-let i = 0;
 
 function addBtnClickHandler() {
   addTask(usrInput.value);
@@ -31,7 +36,7 @@ function addTask(text) {
 
   newTask.style.listStyleType = "none";
   newTask.style.border = "1px solid grey";
-  newTask.style.borderRadius = "0.7em";
+  newTask.style.borderRadius = "0.6em";
 
   delBtn.style.margin = "2px 6px";
   delBtn.appendChild(document.createTextNode("Delete"));
@@ -42,6 +47,7 @@ function addTask(text) {
   newTask.appendChild(delBtn);
 
   document.querySelector("body > div").appendChild(newTask);
+  localStorage.setItem("toDo", JSON.stringify(toDo));
   console.log(JSON.stringify(toDo));
 }
 
@@ -57,3 +63,4 @@ function removeHandler(e) {
 }
 
 // Add a search bar
+// Add them to local storage
