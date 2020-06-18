@@ -1,9 +1,7 @@
+let toDo = [];
 if (localStorage.getItem("toDo")) {
-  let toDo = JSON.parse(localStorage.getItem("toDo"));
-  console.log("I'm here");
-} else {
-  let toDo = [];
-  console.log("I'm in 2");
+  toDo = JSON.parse(localStorage.getItem("toDo"));
+  console.log("Object Already made");
 }
 
 let i = 0;
@@ -26,9 +24,10 @@ function addKeyPressHandler(e) {
   }
 }
 
-function addTask(text) {
-  let data = { text: text, isDone: false };
+function addTask(task) {
+  let data = { task: text, isDone: false };
   toDo.push(data);
+
   let newTask = document.createElement("li");
   newTask.setAttribute("data-id", i++);
   let delBtn = document.createElement("button");
@@ -43,7 +42,7 @@ function addTask(text) {
 
   delBtn.classList.add("del-btn");
 
-  newTask.appendChild(document.createTextNode(text));
+  newTask.appendChild(document.createTextNode(task));
   newTask.appendChild(delBtn);
 
   document.querySelector("body > div").appendChild(newTask);
