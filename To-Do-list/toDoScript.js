@@ -5,17 +5,27 @@ let subBtn = document.querySelector("#submit-btn");
 
 // Submit Button Event Listener
 subBtn.addEventListener("click", addBtnClickHandler);
+usrInput.addEventListener("keypress", addKeyPressHandler);
 
 let i = 0;
 
 function addBtnClickHandler() {
   addTask(usrInput.value);
+  usrInput.value = "";
+}
+
+function addKeyPressHandler(e) {
+  if (e.code === "Enter") {
+    addTask(usrInput.value);
+    usrInput.value = "";
+  }
 }
 
 function addTask(text) {
   let data = { text: text, isDone: false };
   toDo.push(data);
   let newTask = document.createElement("li");
+  newTask.setAttribute("data-id", i++);
   let delBtn = document.createElement("button");
   delBtn.addEventListener("click", removeHandler);
 
@@ -25,7 +35,8 @@ function addTask(text) {
 
   delBtn.style.margin = "2px 6px";
   delBtn.appendChild(document.createTextNode("Delete"));
-  delBtn.classList.add("del-btn-" + (i = i + 1));
+
+  delBtn.classList.add("del-btn");
 
   newTask.appendChild(document.createTextNode(text));
   newTask.appendChild(delBtn);
@@ -35,13 +46,20 @@ function addTask(text) {
 }
 
 function removeHandler(e) {
+  const removeIndex = e.target.parentElement.getAttribute("data-id");
+
   if (confirm("Are you sure ?!")) {
     var elem = e.target.parentElement.parentElement;
     elem.removeChild(e.target.parentElement);
+    // console.log(
+    //   "Element is : " + JSON.stringify(e.target.parentElement.innerText)
+    // );
+    // console.log(toDo.indexOf(e.target.parentElement.innerText));
+    // let filArr = toDo.filter(function fun(value, index, arr){
+    // }  )
   } else {
     console.log("User was Not Sure");
   }
 }
 
-// Storing them in local storage for further access.
 // Add a search bar
