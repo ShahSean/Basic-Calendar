@@ -1,10 +1,11 @@
+// Setting up Data Structure
 let toDo = [];
+let i = 0;
 if (localStorage.getItem("toDo")) {
   toDo = JSON.parse(localStorage.getItem("toDo"));
-  console.log("Object Already made");
+  addExistingTask();
 }
 
-let i = 0;
 var usrInput = document.getElementById("usr-input");
 let subBtn = document.querySelector("#submit-btn");
 
@@ -12,22 +13,34 @@ let subBtn = document.querySelector("#submit-btn");
 subBtn.addEventListener("click", addBtnClickHandler);
 usrInput.addEventListener("keypress", addKeyPressHandler);
 
+// Add-To-List Button handler
 function addBtnClickHandler() {
-  addTask(usrInput.value);
+  addNewTask(usrInput.value);
   usrInput.value = "";
 }
-
+// Keyboard Enter key handler
 function addKeyPressHandler(e) {
   if (e.code === "Enter") {
-    addTask(usrInput.value);
+    addNewTask(usrInput.value);
     usrInput.value = "";
   }
 }
 
-function addTask(task) {
-  let data = { task: text, isDone: false };
-  toDo.push(data);
+// This Functions created the UI for the current Tasks in the Local Storage
+function addExistingTask() {
+  for (var j = 0; j < toDo.length; j++) {
+    addTask(toDo[j].text);
+  }
+}
 
+function addNewTask(task) {
+  let data = { text: task, isDone: false };
+  toDo.push(data);
+  addTask(task);
+  localStorage.setItem("toDo", JSON.stringify(toDo));
+}
+
+function addTask(task) {
   let newTask = document.createElement("li");
   newTask.setAttribute("data-id", i++);
   let delBtn = document.createElement("button");
@@ -46,8 +59,6 @@ function addTask(task) {
   newTask.appendChild(delBtn);
 
   document.querySelector("body > div").appendChild(newTask);
-  localStorage.setItem("toDo", JSON.stringify(toDo));
-  console.log(JSON.stringify(toDo));
 }
 
 function removeHandler(e) {
@@ -60,6 +71,3 @@ function removeHandler(e) {
     toDo.splice(removeIndex, 1);
   }
 }
-
-// Add a search bar
-// Add them to local storage
