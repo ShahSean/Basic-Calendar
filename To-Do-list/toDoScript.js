@@ -62,12 +62,18 @@ function addTask(task) {
 }
 
 function removeHandler(e) {
+  //It's not working because the dat-id is not changing
   const removeIndex = e.target.parentElement.getAttribute("data-id");
+  // Either I should update the data-id or maybe I should represent the
+  // toDo List from the beginning !!!
   console.log(removeIndex);
 
   if (confirm("Are you sure ?!")) {
     var elem = e.target.parentElement.parentElement;
     elem.removeChild(e.target.parentElement);
     toDo.splice(removeIndex, 1);
+    // console.log("It should RMV");
+    console.log(JSON.stringify(toDo));
+    localStorage.setItem("toDo", JSON.stringify(toDo));
   }
 }
