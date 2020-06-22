@@ -19,3 +19,12 @@ body {
   text-align: center;
   background-color: rgba(240, 240, 211, 0.685);
 }
+.new-task {
+  list-style-type: none;
+  border: 1px solid grey;
+  border-radius: 0.6em;
+}
+
+.del-btn {
+  margin: 2px 6px;
+}

@@ -1,9 +1,20 @@
 // Setting up Data Structure
-let toDo = [];
+let toDo_list = [];
 let i = 0;
-if (localStorage.getItem("toDo")) {
-  toDo = JSON.parse(localStorage.getItem("toDo"));
-  addExistingTask();
+if (localStorage.getItem("tasks")) {
+  toDo_list = JSON.parse(localStorage.getItem("tasks"));
+  loadTasks();
+}
+
+function timeStamp() {
+  let time = 0,
+    now = new Date();
+
+  time = now.getFullYear();
+  time += (now.getMonth < 9 ? "0" : "") + now.getMonth();
+  time += (now.getDate < 10 ? "0" : "") + now.getDate();
+  time += now.getUTCMilliseconds();
+  return time;
 }
 
 var usrInput = document.getElementById("usr-input");
@@ -20,60 +31,63 @@ function addBtnClickHandler() {
 }
 // Keyboard Enter key handler
 function addKeyPressHandler(e) {
-  if (e.code === "Enter") {
+  if (e.code === "Enter" || e.code === "NumpadEnter") {
     addNewTask(usrInput.value);
     usrInput.value = "";
   }
 }
 
 // This Functions created the UI for the current Tasks in the Local Storage
-function addExistingTask() {
-  for (var j = 0; j < toDo.length; j++) {
-    addTask(toDo[j].text);
+function loadTasks() {
+  for (var j = 0; j < toDo_list.length; j++) {
+    addTask(toDo_list[j]);
   }
 }
 
+// This Function Adds the newly added Tasks
 function addNewTask(task) {
-  let data = { text: task, isDone: false };
-  toDo.push(data);
-  addTask(task);
-  localStorage.setItem("toDo", JSON.stringify(toDo));
+  let uniqueID = timeStamp();
+  let data = {
+    text: task,
+    isDone: false,
+    idNum: uniqueID,
+  };
+  toDo_list.push(data);
+  addTask(data);
+  localStorage.setItem("tasks", JSON.stringify(toDo_list));
 }
+// This Function Add the Tasks
 
 function addTask(task) {
   let newTask = document.createElement("li");
-  newTask.setAttribute("data-id", i++);
   let delBtn = document.createElement("button");
+
+  newTask.setAttribute("data-task-id", task.idNum);
+
   delBtn.addEventListener("click", removeHandler);
 
-  newTask.style.listStyleType = "none";
-  newTask.style.border = "1px solid grey";
-  newTask.style.borderRadius = "0.6em";
-
-  delBtn.style.margin = "2px 6px";
-  delBtn.appendChild(document.createTextNode("Delete"));
-
+  newTask.classList.add("new-task");
   delBtn.classList.add("del-btn");
 
-  newTask.appendChild(document.createTextNode(task));
+  delBtn.appendChild(document.createTextNode("Delete"));
+  newTask.appendChild(document.createTextNode(task.text));
   newTask.appendChild(delBtn);
 
   document.querySelector("body > div").appendChild(newTask);
 }
 
+// This funciton handles the Deltion
 function removeHandler(e) {
-  //It's not working because the dat-id is not changing
-  const removeIndex = e.target.parentElement.getAttribute("data-id");
-  // Either I should update the data-id or maybe I should represent the
-  // toDo List from the beginning !!!
-  console.log(removeIndex);
+  const removeId = e.target.parentElement.getAttribute("data-task-id");
 
   if (confirm("Are you sure ?!")) {
     var elem = e.target.parentElement.parentElement;
     elem.removeChild(e.target.parentElement);
-    toDo.splice(removeIndex, 1);
-    // console.log("It should RMV");
-    console.log(JSON.stringify(toDo));
-    localStorage.setItem("toDo", JSON.stringify(toDo));
+    var foundIndex = toDo_list.findIndex((el) => {
+      return el.idNum === removeId;
+    });
+    toDo_list.splice(foundIndex, 1);
+    console.log(JSON.stringify(toDo_list));
+    localStorage.setItem("tasks", JSON.stringify(toDo_list));
   }
 }
