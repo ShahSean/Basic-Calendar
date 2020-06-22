@@ -71,9 +71,9 @@ function addTask(task) {
 
   delBtn.appendChild(document.createTextNode("Delete"));
   newTask.appendChild(document.createTextNode(task.text));
-  newTask.appendChild(delBtn);
-
-  document.querySelector("body > div").appendChild(newTask);
+  // newTask.appendChild(delBtn);
+  document.querySelector("body > div> ul").appendChild(newTask);
+  document.querySelector("body > div> ul").appendChild(delBtn);
 }
 
 // This funciton handles the Deltion
