@@ -32,7 +32,7 @@ function addBtnClickHandler() {
   addNewTask(usrInput.value);
   usrInput.value = "";
 }
-// Keyboard Enter key handler    || e.code === "NumpadEnter"
+// Keyboard Enter key handler
 function addKeyPressHandler(e) {
   if (e.code === "Enter" || e.code === "NumpadEnter") {
     addNewTask(text)(usrInput.value);
@@ -59,8 +59,8 @@ function addNewTask(task) {
   addTask(data);
   localStorage.setItem("tasks", JSON.stringify(toDo_list));
 }
-// This Function Add the Tasks
 
+// This Function Add the Tasks
 function addTask(task) {
   let newTask = document.createElement("li");
   let taskText = document.createElement("div");
@@ -77,23 +77,15 @@ function addTask(task) {
   taskText.appendChild(document.createTextNode(task.text));
 
   document.querySelector("body > form > ul").appendChild(newTask);
-  // document.querySelector("body > form> ul").appendChild(taskText);
-  // // taskText.appendChild(delBtn);
-  // document.querySelector("body > form> ul").appendChild(delBtn);
   newTask.appendChild(taskText);
   newTask.appendChild(delBtn);
 }
 
 // This funciton handles the Deltion
 function removeHandler(e) {
-  let test = Json.stringify(e.target.previousSibling);
-  console.log("test is :" + test);
-  const removeId = e.target.previousSibling.getAttribute("data-task-id");
+  const removeId = e.target.parentElement.getAttribute("data-task-id");
   console.log("This is the remove ID : " + removeId);
   if (confirm("Are you sure ?!")) {
-    // var elem = e.target.parentElement.parentElement.parentElement;
-    // elem.removeChild(e.target.parentElement);
-
     var foundIndex = toDo_list.findIndex((el) => {
       return el.idNum === removeId;
     });
