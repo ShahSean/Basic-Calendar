@@ -84,14 +84,14 @@ function addTask(task) {
 // This funciton handles the Deltion
 function removeHandler(e) {
   const removeId = e.target.parentElement.getAttribute("data-task-id");
-  console.log("This is the remove ID : " + removeId);
+
   if (confirm("Are you sure ?!")) {
     var foundIndex = toDo_list.findIndex((el) => {
       return el.idNum === removeId;
     });
 
     toDo_list.splice(foundIndex, 1);
-    console.log(JSON.stringify(toDo_list));
+
     localStorage.setItem("tasks", JSON.stringify(toDo_list));
   }
 }
