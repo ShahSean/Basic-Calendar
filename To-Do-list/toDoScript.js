@@ -1,11 +1,14 @@
 // Setting up Data Structure
 let toDo_list = [];
 let i = 0;
+// Checking if there is already a list in Local Storage
+// If so, rebuilds the UI
 if (localStorage.getItem("tasks")) {
   toDo_list = JSON.parse(localStorage.getItem("tasks"));
   loadTasks();
 }
 
+// This function creates a unique number which will be used as unique ID Number
 function timeStamp() {
   let time = 0,
     now = new Date();
@@ -29,10 +32,10 @@ function addBtnClickHandler() {
   addNewTask(usrInput.value);
   usrInput.value = "";
 }
-// Keyboard Enter key handler
+// Keyboard Enter key handler    || e.code === "NumpadEnter"
 function addKeyPressHandler(e) {
   if (e.code === "Enter" || e.code === "NumpadEnter") {
-    addNewTask(usrInput.value);
+    addNewTask(text)(usrInput.value);
     usrInput.value = "";
   }
 }
@@ -60,6 +63,7 @@ function addNewTask(task) {
 
 function addTask(task) {
   let newTask = document.createElement("li");
+  let taskText = document.createElement("div");
   let delBtn = document.createElement("button");
 
   newTask.setAttribute("data-task-id", task.idNum);
@@ -70,22 +74,30 @@ function addTask(task) {
   delBtn.classList.add("del-btn");
 
   delBtn.appendChild(document.createTextNode("Delete"));
-  newTask.appendChild(document.createTextNode(task.text));
-  // newTask.appendChild(delBtn);
-  document.querySelector("body > div> ul").appendChild(newTask);
-  document.querySelector("body > div> ul").appendChild(delBtn);
+  taskText.appendChild(document.createTextNode(task.text));
+
+  document.querySelector("body > form > ul").appendChild(newTask);
+  // document.querySelector("body > form> ul").appendChild(taskText);
+  // // taskText.appendChild(delBtn);
+  // document.querySelector("body > form> ul").appendChild(delBtn);
+  newTask.appendChild(taskText);
+  newTask.appendChild(delBtn);
 }
 
 // This funciton handles the Deltion
 function removeHandler(e) {
-  const removeId = e.target.parentElement.getAttribute("data-task-id");
-
+  let test = Json.stringify(e.target.previousSibling);
+  console.log("test is :" + test);
+  const removeId = e.target.previousSibling.getAttribute("data-task-id");
+  console.log("This is the remove ID : " + removeId);
   if (confirm("Are you sure ?!")) {
-    var elem = e.target.parentElement.parentElement;
-    elem.removeChild(e.target.parentElement);
+    // var elem = e.target.parentElement.parentElement.parentElement;
+    // elem.removeChild(e.target.parentElement);
+
     var foundIndex = toDo_list.findIndex((el) => {
       return el.idNum === removeId;
     });
+
     toDo_list.splice(foundIndex, 1);
     console.log(JSON.stringify(toDo_list));
     localStorage.setItem("tasks", JSON.stringify(toDo_list));

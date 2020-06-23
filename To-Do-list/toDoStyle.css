@@ -20,13 +20,13 @@ body {
   background-color: rgba(240, 240, 211, 0.685);
 }
 .tasks {
-  display: grid;
-  grid-template-columns: 8fr 2fr;
 }
 .new-task {
   list-style-type: none;
   border: 1px solid grey;
   border-radius: 0.6em;
+  display: grid;
+  grid-template-columns: 8fr 2fr;
 }
 
 .del-btn {
