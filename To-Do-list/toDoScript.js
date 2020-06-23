@@ -29,14 +29,13 @@ usrInput.addEventListener("keypress", addKeyPressHandler);
 
 // Add-To-List Button handler
 function addBtnClickHandler(e) {
-  e.preventDefault();
   addNewTask(usrInput.value);
   usrInput.value = "";
 }
 // Keyboard Enter key handler
 function addKeyPressHandler(e) {
-  if (e.code === "Enter" || e.code === "NumpadEnter") {
-    addNewTask(text)(usrInput.value);
+  if (e.code === "Enter") {
+    addNewTask(usrInput.value);
     usrInput.value = "";
   }
 }
@@ -77,14 +76,13 @@ function addTask(task) {
   delBtn.appendChild(document.createTextNode("Delete"));
   taskText.appendChild(document.createTextNode(task.text));
 
-  document.querySelector("body > form > ul").appendChild(newTask);
+  document.querySelector("body > section > ul").appendChild(newTask);
   newTask.appendChild(taskText);
   newTask.appendChild(delBtn);
 }
 
 // This funciton handles the Deltion
 function removeHandler(e) {
-  e.preventDefault();
   const removeId = e.target.parentElement.getAttribute("data-task-id");
 
   if (confirm("Are you sure ?!")) {
@@ -95,5 +93,13 @@ function removeHandler(e) {
     toDo_list.splice(foundIndex, 1);
 
     localStorage.setItem("tasks", JSON.stringify(toDo_list));
+    reRender();
   }
+}
+
+// This function forces the Tasks UI section to be re-rendered
+function reRender() {
+  let parentElem = document.querySelector(".tasks");
+  parentElem.querySelectorAll("*").forEach((n) => n.remove());
+  loadTasks();
 }
