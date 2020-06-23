@@ -28,7 +28,8 @@ subBtn.addEventListener("click", addBtnClickHandler);
 usrInput.addEventListener("keypress", addKeyPressHandler);
 
 // Add-To-List Button handler
-function addBtnClickHandler() {
+function addBtnClickHandler(e) {
+  e.preventDefault();
   addNewTask(usrInput.value);
   usrInput.value = "";
 }
@@ -83,6 +84,7 @@ function addTask(task) {
 
 // This funciton handles the Deltion
 function removeHandler(e) {
+  e.preventDefault();
   const removeId = e.target.parentElement.getAttribute("data-task-id");
 
   if (confirm("Are you sure ?!")) {
