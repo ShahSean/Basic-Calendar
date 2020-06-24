@@ -25,7 +25,9 @@ let subBtn = document.querySelector("#submit-btn");
 
 // Submit Button Event Listeners
 subBtn.addEventListener("click", addBtnClickHandler);
-usrInput.addEventListener("keypress", addKeyPressHandler);
+usrInput.addEventListener("keypress", function func(e) {
+  addKeyPressHandler(e, addNewTask);
+});
 
 // Add-To-List Button handler
 function addBtnClickHandler(e) {
@@ -33,9 +35,9 @@ function addBtnClickHandler(e) {
   usrInput.value = "";
 }
 // Keyboard Enter key handler
-function addKeyPressHandler(e) {
+function addKeyPressHandler(e, func) {
   if (e.code === "Enter") {
-    addNewTask(usrInput.value);
+    func(usrInput.value);
     usrInput.value = "";
   }
 }
@@ -111,14 +113,40 @@ function reRender() {
 
 function editHandler(e) {
   let taskId = e.target.parentElement.getAttribute("data-task-id");
-  let taskText = e.target.previousSibling;
+  let textElem = e.target.previousSibling;
 
-  let newInput = document.createElement("input");
+  replaceElement(textElem, "input");
 
-  newInput.value = taskText.innerHTML;
-  e.target.parentElement.appendChild(newInput);
-  // console.log("Parent is: " + JSON.stringify(e.target.parentElement));
-  console.log("Prev Sibling is: " + taskText.innerHTML);
-  console.log("Task ID is : " + taskId);
-  console.log("new input is : " + newInput.placeholder);
+  let newInput = document.querySelector(
+    "[data-task-id=" + CSS.escape(taskId) + "] > input"
+  );
+  newInput.addEventListener("keypress", function func(e) {
+    addKeyPressHandler(e, replaceElement(newInput.innerHTML, "label"));
+  });
+  // document.querySelector("body > section > ul > li:nth-child(3) > input");
+  // console.log(JSON.stringify(newInput));
+
+  // if (e.code === "Enter") {
+  //   replaceElement(newInput, "label");
+  // }
+}
+
+function replaceElement(source, newType) {
+  const text = source.innerHTML;
+  // Create the document fragment
+  const frag = document.createDocumentFragment();
+
+  // Fill it with what's in the source element
+  while (source.firstChild) {
+    frag.appendChild(source.firstChild);
+  }
+  // Create the new element
+  const newElem = document.createElement(newType);
+
+  // Empty the document fragment into it
+  newElem.appendChild(frag);
+  newElem.value = text;
+
+  // Replace the source element with the new element on the page
+  source.parentNode.replaceChild(newElem, source);
 }
