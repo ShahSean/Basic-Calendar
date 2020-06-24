@@ -63,21 +63,26 @@ function addNewTask(task) {
 // This Function Add the Tasks
 function addTask(task) {
   let newTask = document.createElement("li");
-  let taskText = document.createElement("div");
+  let taskText = document.createElement("label");
   let delBtn = document.createElement("button");
+  let editBtn = document.createElement("button");
 
   newTask.setAttribute("data-task-id", task.idNum);
 
   delBtn.addEventListener("click", removeHandler);
+  editBtn.addEventListener("click", editHandler);
 
   newTask.classList.add("new-task");
   delBtn.classList.add("del-btn");
+  editBtn.classList.add("edit-btn");
 
   delBtn.appendChild(document.createTextNode("Delete"));
+  editBtn.appendChild(document.createTextNode("Edit"));
   taskText.appendChild(document.createTextNode(task.text));
 
   document.querySelector("body > section > ul").appendChild(newTask);
   newTask.appendChild(taskText);
+  newTask.appendChild(editBtn);
   newTask.appendChild(delBtn);
 }
 
@@ -102,4 +107,18 @@ function reRender() {
   let parentElem = document.querySelector(".tasks");
   parentElem.querySelectorAll("*").forEach((n) => n.remove());
   loadTasks();
+}
+
+function editHandler(e) {
+  let taskId = e.target.parentElement.getAttribute("data-task-id");
+  let taskText = e.target.previousSibling;
+
+  let newInput = document.createElement("input");
+
+  newInput.value = taskText.innerHTML;
+  e.target.parentElement.appendChild(newInput);
+  // console.log("Parent is: " + JSON.stringify(e.target.parentElement));
+  console.log("Prev Sibling is: " + taskText.innerHTML);
+  console.log("Task ID is : " + taskId);
+  console.log("new input is : " + newInput.placeholder);
 }
