@@ -25,13 +25,16 @@ body {
   border: 1px solid grey;
   border-radius: 0.6em;
   display: grid;
-  grid-template-columns: 8fr 1.5fr 1.5fr;
+  grid-template-columns: 0.25fr 8fr 1.5fr 1.5fr;
 }
 
 .del-btn {
-  margin: 2px 6px;
+  margin: 2px 4px;
 }
 
 .edit-btn {
   margin: 2px 3px;
+}
+.check-box {
+  margin: 6px 4px;
 }

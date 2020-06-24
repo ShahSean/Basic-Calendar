@@ -66,21 +66,26 @@ function addTask(task) {
   let taskText = document.createElement("label");
   let delBtn = document.createElement("button");
   let editBtn = document.createElement("button");
+  let checkBox = document.createElement("input");
+  checkBox.type = "checkbox";
 
   newTask.setAttribute("data-task-id", task.idNum);
 
   delBtn.addEventListener("click", removeHandler);
   editBtn.addEventListener("click", editHandler);
+  checkBox.addEventListener("change", checkBoxHandler);
 
   newTask.classList.add("new-task");
   delBtn.classList.add("del-btn");
   editBtn.classList.add("edit-btn");
+  checkBox.classList.add("check-box");
 
   delBtn.appendChild(document.createTextNode("Delete"));
   editBtn.appendChild(document.createTextNode("Edit"));
   taskText.appendChild(document.createTextNode(task.text));
 
   document.querySelector("body > section > ul").appendChild(newTask);
+  newTask.appendChild(checkBox);
   newTask.appendChild(taskText);
   newTask.appendChild(editBtn);
   newTask.appendChild(delBtn);
@@ -176,4 +181,12 @@ function afterEditReplace(source, newType, id) {
 
   // Replace the source element with the new element on the page
   source.parentNode.replaceChild(newElem, source);
+}
+
+function checkBoxHandler(e) {
+  if (this.checked) {
+    console.log("Check Box is Checked");
+  } else {
+    console.log("Check Box is -- NOT -- Checked");
+  }
 }
