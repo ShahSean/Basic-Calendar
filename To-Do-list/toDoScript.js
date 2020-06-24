@@ -109,11 +109,12 @@ function reRender() {
   loadTasks();
 }
 
+// This function handled the editing of a task
 function editHandler(e) {
   let taskId = e.target.parentElement.getAttribute("data-task-id");
   let textElem = e.target.previousSibling;
 
-  replaceElement(textElem, "input");
+  beforeEditReplace(textElem, "input");
 
   let newInput = document.querySelector(
     "[data-task-id=" + CSS.escape(taskId) + "] > input"
@@ -121,13 +122,13 @@ function editHandler(e) {
 
   newInput.addEventListener("keypress", function func(e) {
     if (e.code === "Enter") {
-      console.log("inside if");
-      afterEdit(newInput, "label");
+      afterEditReplace(newInput, "label", taskId);
     }
   });
 }
 
-function replaceElement(source, newType) {
+// This function Changes the Task to an input, for user to Edit the previous task
+function beforeEditReplace(source, newType) {
   const text = source.innerHTML;
   // Create the document fragment
   const frag = document.createDocumentFragment();
@@ -147,7 +148,8 @@ function replaceElement(source, newType) {
   source.parentNode.replaceChild(newElem, source);
 }
 
-function afterEdit(source, newType) {
+// This function gets the new User's input, and replace it with the old task
+function afterEditReplace(source, newType, id) {
   const text = source.value;
   // Create the document fragment
   const frag = document.createDocumentFragment();
@@ -162,6 +164,15 @@ function afterEdit(source, newType) {
   // Empty the document fragment into it
   newElem.appendChild(frag);
   newElem.innerHTML = text;
+
+  // Searching for the appropriate index in local storage
+  var foundIndex = toDo_list.findIndex((el) => {
+    console.log("in here");
+    return el.idNum === id;
+  });
+  // Changing Local storage with the new value
+  toDo_list[foundIndex].text = text;
+  localStorage.setItem("tasks", JSON.stringify(toDo_list));
 
   // Replace the source element with the new element on the page
   source.parentNode.replaceChild(newElem, source);
