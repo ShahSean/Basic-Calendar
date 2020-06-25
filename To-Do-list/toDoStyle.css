@@ -38,3 +38,8 @@ body {
 .check-box {
   margin: 6px 4px;
 }
+.hr {
+  border: none;
+  height: 2px;
+  background-color: #333;
+}

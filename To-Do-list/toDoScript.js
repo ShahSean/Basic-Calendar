@@ -75,6 +75,7 @@ function addTask(task) {
   editBtn.addEventListener("click", editHandler);
   checkBox.addEventListener("change", checkBoxHandler);
 
+  // Adding appropriate classes to each element
   newTask.classList.add("new-task");
   delBtn.classList.add("del-btn");
   editBtn.classList.add("edit-btn");
@@ -84,6 +85,7 @@ function addTask(task) {
   editBtn.appendChild(document.createTextNode("Edit"));
   taskText.appendChild(document.createTextNode(task.text));
 
+  // Appending each element to document
   document.querySelector("body > section > ul").appendChild(newTask);
   newTask.appendChild(checkBox);
   newTask.appendChild(taskText);
@@ -193,8 +195,32 @@ function checkBoxHandler(e) {
     // Changing Local storage with the new value
     toDo_list[foundIndex].isDone = true;
     localStorage.setItem("tasks", JSON.stringify(toDo_list));
-  } else {
+    completedTasksHandler(taskId);
+  }
+  // If the task is not completed yet set isDone to false
+  else {
     toDo_list[foundIndex].isDone = false;
     localStorage.setItem("tasks", JSON.stringify(toDo_list));
   }
+}
+// This Function handles the tasks after they have been checked as completed
+function completedTasksHandler(taskId) {
+  let $ul = document.createElement("ul");
+  let $hr = document.createElement("hr");
+  let $completedHeader = document.createElement("h2");
+  let $br = document.createElement("br");
+  let checkedTask = document.querySelector(
+    "[data-task-id=" + CSS.escape(taskId) + "]"
+  );
+
+  $completedHeader.appendChild(document.createTextNode("Completed Tasks"));
+
+  $hr.classList.add("hr");
+
+  document.querySelector("body > section ").appendChild($ul);
+  $ul.appendChild($hr);
+  $ul.appendChild($completedHeader);
+  $ul.appendChild($br);
+
+  $ul.appendChild(checkedTask);
 }
