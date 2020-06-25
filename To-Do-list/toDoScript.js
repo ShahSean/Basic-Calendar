@@ -213,11 +213,11 @@ function checkBoxHandler(e) {
   // If the checkbox is checked
   if (this.checked) {
     // Apply changes to UI and move it to completed section
-    // completedTasksHandler(taskId);
     // Changing Local storage with the new value
     toDo_list[foundIndex].isDone = true;
     localStorage.setItem("tasks", JSON.stringify(toDo_list));
     reRender();
+    this.checked;
   }
   // If the task is not completed yet set isDone to false
   else {
@@ -250,10 +250,13 @@ function creatCmpltHeader() {
 // This Function handles the tasks after they have been checked as completed
 function completedTasksHandler(task, taskId) {
   let checkedSec = document.querySelector(".cmpltTasks");
-  console.log("I was called");
   addTask(task);
   let checkedTask = document.querySelector(
     "[data-task-id=" + CSS.escape(taskId) + "]"
   );
   checkedSec.appendChild(checkedTask);
+  // checkedTask[0].setAttribute("checked", "true")
+  console.log(checkedTask);
+  let checkBx = checkedTask.querySelector(".check-box");
+  checkBx.checked = true;
 }
