@@ -144,7 +144,7 @@ function editHandler(e) {
   beforeEditReplace(textElem, "input");
 
   let newInput = document.querySelector(
-    "[data-task-id=" + CSS.escape(taskId) + "] > input"
+    "[data-task-id=" + CSS.escape(taskId) + "] > input:nth-child(2)"
   );
 
   newInput.addEventListener("keypress", function func(e) {
@@ -255,8 +255,6 @@ function completedTasksHandler(task, taskId) {
     "[data-task-id=" + CSS.escape(taskId) + "]"
   );
   checkedSec.appendChild(checkedTask);
-  // checkedTask[0].setAttribute("checked", "true")
-  console.log(checkedTask);
   let checkBx = checkedTask.querySelector(".check-box");
   checkBx.checked = true;
 }
