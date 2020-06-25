@@ -42,12 +42,21 @@ function addKeyPressHandler(e, func) {
 
 // This Functions created the UI for the current Tasks in the Local Storage
 function loadTasks() {
+  // Making a counter to make sure we only create
+  // the "Complete Tasks" header only once
+  let counter = 0;
   for (var j = 0; j < toDo_list.length; j++) {
+    // Checking if the Task has been marked as completed
     if (toDo_list[j].isDone === true) {
-      completedTasksHandler(toDo_list[j].idNum);
+      // Checking to see if it's the first completed task,
+      // then create the Completed section
+      if (counter == 0) {
+        creatCmpltHeader();
+      }
+      completedTasksHandler(toDo_list[j], toDo_list[j].idNum);
+      counter++;
     } else {
       addTask(toDo_list[j]);
-      console.log("hello");
     }
   }
 }
@@ -116,8 +125,14 @@ function removeHandler(e) {
 
 // This function forces the Tasks UI section to be re-rendered
 function reRender() {
+  // New Tasks Parent element
   let parentElem = document.querySelector(".tasks");
+  // Completed tasks parent
+  let cmpltparent = document.querySelectorAll(".cmpltTasks");
+
   parentElem.querySelectorAll("*").forEach((n) => n.remove());
+  cmpltparent.forEach((n) => n.remove());
+  // Reload all tasks
   loadTasks();
 }
 
@@ -198,36 +213,47 @@ function checkBoxHandler(e) {
   // If the checkbox is checked
   if (this.checked) {
     // Apply changes to UI and move it to completed section
-    completedTasksHandler(taskId);
+    // completedTasksHandler(taskId);
     // Changing Local storage with the new value
     toDo_list[foundIndex].isDone = true;
     localStorage.setItem("tasks", JSON.stringify(toDo_list));
+    reRender();
   }
   // If the task is not completed yet set isDone to false
   else {
     toDo_list[foundIndex].isDone = false;
     localStorage.setItem("tasks", JSON.stringify(toDo_list));
+    reRender();
   }
 }
-// This Function handles the tasks after they have been checked as completed
-function completedTasksHandler(taskId) {
+
+// Create a function named create2ndHeader which will just create the header
+// and then in loadtask we make the rest of the tasks
+// in checkBox handler, we will just reRender.
+
+function creatCmpltHeader() {
   let $ul = document.createElement("ul");
   let $hr = document.createElement("hr");
   let $completedHeader = document.createElement("h2");
   let $br = document.createElement("br");
-  let checkedTask = document.querySelector(
-    "[data-task-id=" + CSS.escape(taskId) + "]"
-  );
 
-  $completedHeader.appendChild(document.createTextNode("Completed Tasks"));
-  // remove edit btn as well !!!
-
+  $ul.classList.add("cmpltTasks");
   $hr.classList.add("hr");
+  $completedHeader.appendChild(document.createTextNode("Completed Tasks"));
 
   document.querySelector("body > section ").appendChild($ul);
   $ul.appendChild($hr);
   $ul.appendChild($completedHeader);
   $ul.appendChild($br);
+}
 
-  $ul.appendChild(checkedTask);
+// This Function handles the tasks after they have been checked as completed
+function completedTasksHandler(task, taskId) {
+  let checkedSec = document.querySelector(".cmpltTasks");
+  console.log("I was called");
+  addTask(task);
+  let checkedTask = document.querySelector(
+    "[data-task-id=" + CSS.escape(taskId) + "]"
+  );
+  checkedSec.appendChild(checkedTask);
 }
