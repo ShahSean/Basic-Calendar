@@ -67,9 +67,9 @@ function addTask(task) {
   let delBtn = document.createElement("button");
   let editBtn = document.createElement("button");
   let checkBox = document.createElement("input");
-  checkBox.type = "checkbox";
 
   newTask.setAttribute("data-task-id", task.idNum);
+  checkBox.type = "checkbox";
 
   delBtn.addEventListener("click", removeHandler);
   editBtn.addEventListener("click", editHandler);
@@ -172,7 +172,6 @@ function afterEditReplace(source, newType, id) {
 
   // Searching for the appropriate index in local storage
   var foundIndex = toDo_list.findIndex((el) => {
-    console.log("in here");
     return el.idNum === id;
   });
   // Changing Local storage with the new value
@@ -184,9 +183,18 @@ function afterEditReplace(source, newType, id) {
 }
 
 function checkBoxHandler(e) {
+  let taskId = e.target.parentElement.getAttribute("data-task-id");
+  // Searching for the appropriate index in local storage
+  var foundIndex = toDo_list.findIndex((el) => {
+    return el.idNum === taskId;
+  });
+  // If the checkbox is checked
   if (this.checked) {
-    console.log("Check Box is Checked");
+    // Changing Local storage with the new value
+    toDo_list[foundIndex].isDone = true;
+    localStorage.setItem("tasks", JSON.stringify(toDo_list));
   } else {
-    console.log("Check Box is -- NOT -- Checked");
+    toDo_list[foundIndex].isDone = false;
+    localStorage.setItem("tasks", JSON.stringify(toDo_list));
   }
 }
