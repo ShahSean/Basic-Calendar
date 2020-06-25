@@ -43,7 +43,12 @@ function addKeyPressHandler(e, func) {
 // This Functions created the UI for the current Tasks in the Local Storage
 function loadTasks() {
   for (var j = 0; j < toDo_list.length; j++) {
-    addTask(toDo_list[j]);
+    if (toDo_list[j].isDone === true) {
+      completedTasksHandler(toDo_list[j].idNum);
+    } else {
+      addTask(toDo_list[j]);
+      console.log("hello");
+    }
   }
 }
 
@@ -192,10 +197,11 @@ function checkBoxHandler(e) {
   });
   // If the checkbox is checked
   if (this.checked) {
+    // Apply changes to UI and move it to completed section
+    completedTasksHandler(taskId);
     // Changing Local storage with the new value
     toDo_list[foundIndex].isDone = true;
     localStorage.setItem("tasks", JSON.stringify(toDo_list));
-    completedTasksHandler(taskId);
   }
   // If the task is not completed yet set isDone to false
   else {
@@ -214,6 +220,7 @@ function completedTasksHandler(taskId) {
   );
 
   $completedHeader.appendChild(document.createTextNode("Completed Tasks"));
+  // remove edit btn as well !!!
 
   $hr.classList.add("hr");
 
