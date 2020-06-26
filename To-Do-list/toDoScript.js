@@ -45,22 +45,23 @@ function addKeyPressHandler(e, func) {
   }
 }
 
+let completedSectionCreated = false;
+
 // This Functions created the UI for the current Tasks in the Local Storage
 function loadTasks() {
   // Making a counter to make sure we only create
   // the "Complete Tasks" header only once
-  let counter = 0;
-  for (var j = 0; j < toDo_list.length; j++) {
+  for (let j = 0; j < toDo_list.length; j++) {
     // Checking if the Task has been marked as completed
     if (toDo_list[j].isDone === true) {
       // Checking to see if it's the first completed task,
       // then create the Completed section
-      if (counter === 0) {
+      if (!completedSectionCreated) {
         creatCmpltHeader();
         clearAllBtn();
+        completedSectionCreated = true;
       }
       completedTasksHandler(toDo_list[j], toDo_list[j].idNum);
-      counter++;
     } else {
       addTask(toDo_list[j]);
     }
@@ -134,17 +135,11 @@ function reRender() {
   // New Tasks Parent element
   let newTaskParent = document.querySelector(".tasks");
   // Completed tasks parent
-  let cmpltparent = document.querySelectorAll(".cmpltTasksSec");
-  let toDoContainer = document.querySelectorAll("to-do-container");
-  let clrBtn = document.querySelectorAll(".clr-btn");
-  // while (clrBtn) {
-  //   toDoContainer.removeChild(clrBtn);
-  // }
+  let cmpltparent = document.querySelector(".cmpltTasksSec");
 
   newTaskParent.querySelectorAll("*").forEach((n) => n.remove());
-  cmpltparent.forEach((n) => n.remove());
-  toDoContainer.forEach((n) => n.removeChild(clrBtn));
-  // toDoContainer.forEach((clrBtn) => clrBtn.remove());
+  cmpltparent.querySelectorAll("*").forEach((n) => n.remove());
+
   // Reload all tasks
   loadTasks();
 }
@@ -244,6 +239,7 @@ function checkBoxHandler(e) {
 // in checkBox handler, we will just reRender.
 
 function creatCmpltHeader() {
+  let $div = document.createElement("div");
   let $ul = document.createElement("ul");
   let $hr = document.createElement("hr");
   let $completedHeader = document.createElement("h2");
@@ -253,10 +249,11 @@ function creatCmpltHeader() {
   $hr.classList.add("hr");
   $completedHeader.appendChild(document.createTextNode("Completed Tasks"));
 
-  document.querySelector("body > section ").appendChild($ul);
-  $ul.appendChild($hr);
-  $ul.appendChild($completedHeader);
-  $ul.appendChild($br);
+  document.querySelector("body > section").appendChild($div);
+  $div.appendChild($hr);
+  $div.appendChild($completedHeader);
+  $div.appendChild($br);
+  $div.appendChild($ul);
 }
 
 function clearAllBtn() {
