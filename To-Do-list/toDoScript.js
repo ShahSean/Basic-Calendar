@@ -25,7 +25,7 @@ function timeStamp() {
   return time;
 }
 
-var usrInput = document.getElementById("usr-input");
+let usrInput = document.getElementById("usr-input");
 let subBtn = document.querySelector("#submit-btn");
 
 // Submit Button Event Listeners
@@ -118,7 +118,7 @@ function removeHandler(e) {
   const removeId = e.target.parentElement.getAttribute("data-task-id");
 
   if (confirm("Are you sure ?!")) {
-    var foundIndex = toDo_list.findIndex((el) => {
+    const foundIndex = toDo_list.findIndex((el) => {
       return el.idNum === removeId;
     });
 
@@ -206,7 +206,7 @@ function afterEditReplace(source, newType, id) {
   newElem.innerHTML = text;
 
   // Searching for the appropriate index in local storage
-  var foundIndex = toDo_list.findIndex((el) => {
+  const foundIndex = toDo_list.findIndex((el) => {
     return el.idNum === id;
   });
   // Changing Local storage with the new value
@@ -220,7 +220,7 @@ function afterEditReplace(source, newType, id) {
 function checkBoxHandler(e) {
   let taskId = e.target.parentElement.getAttribute("data-task-id");
   // Searching for the appropriate index in local storage
-  var foundIndex = toDo_list.findIndex((el) => {
+  const foundIndex = toDo_list.findIndex((el) => {
     return el.idNum === taskId;
   });
   // If the checkbox is checked
