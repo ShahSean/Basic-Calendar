@@ -34,7 +34,7 @@ function addBtnClickHandler(e) {
 }
 // Keyboard Enter key handler
 function addKeyPressHandler(e, func) {
-  if (e.code === "Enter") {
+  if (e.code === "Enter" || e.code === "NumpadEnter") {
     addNewTask(usrInput.value);
     usrInput.value = "";
   }
@@ -50,12 +50,11 @@ function loadTasks() {
     if (toDo_list[j].isDone === true) {
       // Checking to see if it's the first completed task,
       // then create the Completed section
-      if (counter == 0) {
+      if (counter === 0) {
         creatCmpltHeader();
+        clearAllBtn();
       }
       completedTasksHandler(toDo_list[j], toDo_list[j].idNum);
-      console.log("here");
-      if (counter == 0) clearAllBtn();
       counter++;
     } else {
       addTask(toDo_list[j]);
@@ -128,12 +127,19 @@ function removeHandler(e) {
 // This function forces the Tasks UI section to be re-rendered
 function reRender() {
   // New Tasks Parent element
-  let parentElem = document.querySelector(".tasks");
+  let newTaskParent = document.querySelector(".tasks");
   // Completed tasks parent
-  let cmpltparent = document.querySelectorAll(".cmpltTasks");
+  let cmpltparent = document.querySelectorAll(".cmpltTasksSec");
+  let toDoContainer = document.querySelectorAll("to-do-container");
+  let clrBtn = document.querySelectorAll(".clr-btn");
+  // while (clrBtn) {
+  //   toDoContainer.removeChild(clrBtn);
+  // }
 
-  parentElem.querySelectorAll("*").forEach((n) => n.remove());
+  newTaskParent.querySelectorAll("*").forEach((n) => n.remove());
   cmpltparent.forEach((n) => n.remove());
+  toDoContainer.forEach((n) => n.removeChild(clrBtn));
+  // toDoContainer.forEach((clrBtn) => clrBtn.remove());
   // Reload all tasks
   loadTasks();
 }
@@ -219,7 +225,6 @@ function checkBoxHandler(e) {
     toDo_list[foundIndex].isDone = true;
     localStorage.setItem("tasks", JSON.stringify(toDo_list));
     reRender();
-    this.checked;
   }
   // If the task is not completed yet set isDone to false
   else {
@@ -239,7 +244,7 @@ function creatCmpltHeader() {
   let $completedHeader = document.createElement("h2");
   let $br = document.createElement("br");
 
-  $ul.classList.add("cmpltTasks");
+  $ul.classList.add("cmpltTasksSec");
   $hr.classList.add("hr");
   $completedHeader.appendChild(document.createTextNode("Completed Tasks"));
 
@@ -252,15 +257,18 @@ function creatCmpltHeader() {
 function clearAllBtn() {
   let $div = document.createElement("div");
   let $clrBtn = document.createElement("button");
+  let cmpltSec = document.querySelector(".cmpltTasksSec");
+
   $clrBtn.appendChild(document.createTextNode("Clear All"));
-  document.querySelector("body > section ").appendChild($div);
+  $div.classList.add("clr-btn");
+
+  cmpltSec.after($div);
   $div.appendChild($clrBtn);
-  console.log("called");
 }
 
 // This Function handles the tasks after they have been checked as completed
 function completedTasksHandler(task, taskId) {
-  let checkedSec = document.querySelector(".cmpltTasks");
+  let checkedSec = document.querySelector(".cmpltTasksSec");
   addTask(task);
   let checkedTask = document.querySelector(
     "[data-task-id=" + CSS.escape(taskId) + "]"
@@ -269,8 +277,10 @@ function completedTasksHandler(task, taskId) {
   // Setting the Checkbox's UI to true
   let checkBx = checkedTask.querySelector(".check-box");
   checkBx.checked = true;
+  // Modifying the CSS for Completed Tasks
   let lbl = checkedTask.querySelector("label");
   let editBtn = checkedTask.querySelector(".edit-btn");
   lbl.classList.add("cmplt-task");
+  // Removing Edit Button in Completed Tasks Section
   editBtn.classList.toggle("cmplt-edit-btn");
 }
