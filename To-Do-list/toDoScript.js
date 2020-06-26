@@ -1,11 +1,16 @@
 // Setting up Data Structure
 let toDo_list = [];
-let i = 0;
-// Checking if there is already a list in Local Storage
-// If so, rebuilds the UI
-if (localStorage.getItem("tasks")) {
-  toDo_list = JSON.parse(localStorage.getItem("tasks"));
-  loadTasks();
+
+function loadFromLocalStorage() {
+  const tasks = localStorage.getItem("tasks");
+
+  if (tasks) {
+    toDo_list = JSON.parse(tasks);
+  }
+}
+
+function commitToLocalStorage(list) {
+  localStorage.setItem("tasks", JSON.stringify(list));
 }
 
 // This function creates a unique number which will be used as unique ID Number
@@ -72,7 +77,7 @@ function addNewTask(task) {
   };
   toDo_list.push(data);
   addTask(data);
-  localStorage.setItem("tasks", JSON.stringify(toDo_list));
+  commitToLocalStorage(toDo_list);
 }
 
 // This Function Add the Tasks
@@ -119,7 +124,7 @@ function removeHandler(e) {
 
     toDo_list.splice(foundIndex, 1);
 
-    localStorage.setItem("tasks", JSON.stringify(toDo_list));
+    commitToLocalStorage(toDo_list);
     reRender();
   }
 }
@@ -206,7 +211,7 @@ function afterEditReplace(source, newType, id) {
   });
   // Changing Local storage with the new value
   toDo_list[foundIndex].text = text;
-  localStorage.setItem("tasks", JSON.stringify(toDo_list));
+  commitToLocalStorage(toDo_list);
 
   // Replace the source element with the new element on the page
   source.parentNode.replaceChild(newElem, source);
@@ -223,13 +228,13 @@ function checkBoxHandler(e) {
     // Apply changes to UI and move it to completed section
     // Changing Local storage with the new value
     toDo_list[foundIndex].isDone = true;
-    localStorage.setItem("tasks", JSON.stringify(toDo_list));
+    commitToLocalStorage(toDo_list);
     reRender();
   }
   // If the task is not completed yet set isDone to false
   else {
     toDo_list[foundIndex].isDone = false;
-    localStorage.setItem("tasks", JSON.stringify(toDo_list));
+    commitToLocalStorage(toDo_list);
     reRender();
   }
 }
@@ -284,3 +289,13 @@ function completedTasksHandler(task, taskId) {
   // Removing Edit Button in Completed Tasks Section
   editBtn.classList.toggle("cmplt-edit-btn");
 }
+
+function startApp() {
+  loadFromLocalStorage(); // Try to load list from Local Storage
+
+  if (toDo_list.length > 0) {
+    loadTasks();
+  }
+}
+
+startApp();
