@@ -45,17 +45,16 @@ function addKeyPressHandler(e, func) {
   }
 }
 
+// Flag to make sure the completed section header and
+// clear button is created only once
 let completedSectionCreated = false;
 
-// This Functions created the UI for the current Tasks in the Local Storage
+// This function creates the UI for the current Tasks from the toDo_list array
 function loadTasks() {
-  // Making a counter to make sure we only create
-  // the "Complete Tasks" header only once
   for (let j = 0; j < toDo_list.length; j++) {
     // Checking if the Task has been marked as completed
     if (toDo_list[j].isDone === true) {
-      // Checking to see if it's the first completed task,
-      // then create the Completed section
+      // Check to see wether the completed section has already been created
       if (!completedSectionCreated) {
         creatCmpltHeader();
         clearAllBtn();
@@ -137,8 +136,13 @@ function reRender() {
   // Completed tasks parent
   let cmpltparent = document.querySelector(".cmpltTasksSec");
 
-  newTaskParent.querySelectorAll("*").forEach((n) => n.remove());
-  cmpltparent.querySelectorAll("*").forEach((n) => n.remove());
+  if (newTaskParent) {
+    newTaskParent.querySelectorAll("*").forEach((n) => n.remove());
+  }
+
+  if (cmpltparent) {
+    cmpltparent.querySelectorAll("*").forEach((n) => n.remove());
+  }
 
   // Reload all tasks
   loadTasks();
