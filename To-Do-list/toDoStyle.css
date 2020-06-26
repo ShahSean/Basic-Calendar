@@ -43,3 +43,12 @@ body {
   height: 2px;
   background-color: #333;
 }
+
+.cmplt-task {
+  text-decoration: line-through;
+  opacity: 0.4;
+}
+
+.cmplt-edit-btn {
+  display: none;
+}

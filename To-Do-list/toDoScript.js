@@ -54,6 +54,8 @@ function loadTasks() {
         creatCmpltHeader();
       }
       completedTasksHandler(toDo_list[j], toDo_list[j].idNum);
+      console.log("here");
+      if (counter == 0) clearAllBtn();
       counter++;
     } else {
       addTask(toDo_list[j]);
@@ -247,6 +249,15 @@ function creatCmpltHeader() {
   $ul.appendChild($br);
 }
 
+function clearAllBtn() {
+  let $div = document.createElement("div");
+  let $clrBtn = document.createElement("button");
+  $clrBtn.appendChild(document.createTextNode("Clear All"));
+  document.querySelector("body > section ").appendChild($div);
+  $div.appendChild($clrBtn);
+  console.log("called");
+}
+
 // This Function handles the tasks after they have been checked as completed
 function completedTasksHandler(task, taskId) {
   let checkedSec = document.querySelector(".cmpltTasks");
@@ -255,6 +266,11 @@ function completedTasksHandler(task, taskId) {
     "[data-task-id=" + CSS.escape(taskId) + "]"
   );
   checkedSec.appendChild(checkedTask);
+  // Setting the Checkbox's UI to true
   let checkBx = checkedTask.querySelector(".check-box");
   checkBx.checked = true;
+  let lbl = checkedTask.querySelector("label");
+  let editBtn = checkedTask.querySelector(".edit-btn");
+  lbl.classList.add("cmplt-task");
+  editBtn.classList.toggle("cmplt-edit-btn");
 }
