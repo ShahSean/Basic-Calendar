@@ -1,11 +1,16 @@
 // Setting up Data Structure
 let toDo_list = [];
-let i = 0;
-// Checking if there is already a list in Local Storage
-// If so, rebuilds the UI
-if (localStorage.getItem("tasks")) {
-  toDo_list = JSON.parse(localStorage.getItem("tasks"));
-  loadTasks();
+
+function loadFromLocalStorage() {
+  const tasks = localStorage.getItem("tasks");
+
+  if (tasks) {
+    toDo_list = JSON.parse(tasks);
+  }
+}
+
+function commitToLocalStorage(list) {
+  localStorage.setItem("tasks", JSON.stringify(list));
 }
 
 // This function creates a unique number which will be used as unique ID Number
@@ -20,7 +25,7 @@ function timeStamp() {
   return time;
 }
 
-var usrInput = document.getElementById("usr-input");
+let usrInput = document.getElementById("usr-input");
 let subBtn = document.querySelector("#submit-btn");
 
 // Submit Button Event Listeners
@@ -40,22 +45,22 @@ function addKeyPressHandler(e, func) {
   }
 }
 
-// This Functions created the UI for the current Tasks in the Local Storage
+// Flag to make sure the completed section header and
+// clear button is created only once
+let completedSectionCreated = false;
+
+// This function creates the UI for the current Tasks from the toDo_list array
 function loadTasks() {
-  // Making a counter to make sure we only create
-  // the "Complete Tasks" header only once
-  let counter = 0;
-  for (var j = 0; j < toDo_list.length; j++) {
+  for (let j = 0; j < toDo_list.length; j++) {
     // Checking if the Task has been marked as completed
     if (toDo_list[j].isDone === true) {
-      // Checking to see if it's the first completed task,
-      // then create the Completed section
-      if (counter === 0) {
+      // Check to see wether the completed section has already been created
+      if (!completedSectionCreated) {
         creatCmpltHeader();
         clearAllBtn();
+        completedSectionCreated = true;
       }
       completedTasksHandler(toDo_list[j], toDo_list[j].idNum);
-      counter++;
     } else {
       addTask(toDo_list[j]);
     }
@@ -72,7 +77,7 @@ function addNewTask(task) {
   };
   toDo_list.push(data);
   addTask(data);
-  localStorage.setItem("tasks", JSON.stringify(toDo_list));
+  commitToLocalStorage(toDo_list);
 }
 
 // This Function Add the Tasks
@@ -113,13 +118,13 @@ function removeHandler(e) {
   const removeId = e.target.parentElement.getAttribute("data-task-id");
 
   if (confirm("Are you sure ?!")) {
-    var foundIndex = toDo_list.findIndex((el) => {
+    const foundIndex = toDo_list.findIndex((el) => {
       return el.idNum === removeId;
     });
 
     toDo_list.splice(foundIndex, 1);
 
-    localStorage.setItem("tasks", JSON.stringify(toDo_list));
+    commitToLocalStorage(toDo_list);
     reRender();
   }
 }
@@ -129,17 +134,16 @@ function reRender() {
   // New Tasks Parent element
   let newTaskParent = document.querySelector(".tasks");
   // Completed tasks parent
-  let cmpltparent = document.querySelectorAll(".cmpltTasksSec");
-  let toDoContainer = document.querySelectorAll("to-do-container");
-  let clrBtn = document.querySelectorAll(".clr-btn");
-  // while (clrBtn) {
-  //   toDoContainer.removeChild(clrBtn);
-  // }
+  let cmpltparent = document.querySelector(".cmpltTasksSec");
 
-  newTaskParent.querySelectorAll("*").forEach((n) => n.remove());
-  cmpltparent.forEach((n) => n.remove());
-  toDoContainer.forEach((n) => n.removeChild(clrBtn));
-  // toDoContainer.forEach((clrBtn) => clrBtn.remove());
+  if (newTaskParent) {
+    newTaskParent.querySelectorAll("*").forEach((n) => n.remove());
+  }
+
+  if (cmpltparent) {
+    cmpltparent.querySelectorAll("*").forEach((n) => n.remove());
+  }
+
   // Reload all tasks
   loadTasks();
 }
@@ -201,12 +205,12 @@ function afterEditReplace(source, newType, id) {
   newElem.innerHTML = text;
 
   // Searching for the appropriate index in local storage
-  var foundIndex = toDo_list.findIndex((el) => {
+  const foundIndex = toDo_list.findIndex((el) => {
     return el.idNum === id;
   });
   // Changing Local storage with the new value
   toDo_list[foundIndex].text = text;
-  localStorage.setItem("tasks", JSON.stringify(toDo_list));
+  commitToLocalStorage(toDo_list);
 
   // Replace the source element with the new element on the page
   source.parentNode.replaceChild(newElem, source);
@@ -215,7 +219,7 @@ function afterEditReplace(source, newType, id) {
 function checkBoxHandler(e) {
   let taskId = e.target.parentElement.getAttribute("data-task-id");
   // Searching for the appropriate index in local storage
-  var foundIndex = toDo_list.findIndex((el) => {
+  const foundIndex = toDo_list.findIndex((el) => {
     return el.idNum === taskId;
   });
   // If the checkbox is checked
@@ -223,13 +227,13 @@ function checkBoxHandler(e) {
     // Apply changes to UI and move it to completed section
     // Changing Local storage with the new value
     toDo_list[foundIndex].isDone = true;
-    localStorage.setItem("tasks", JSON.stringify(toDo_list));
+    commitToLocalStorage(toDo_list);
     reRender();
   }
   // If the task is not completed yet set isDone to false
   else {
     toDo_list[foundIndex].isDone = false;
-    localStorage.setItem("tasks", JSON.stringify(toDo_list));
+    commitToLocalStorage(toDo_list);
     reRender();
   }
 }
@@ -239,6 +243,7 @@ function checkBoxHandler(e) {
 // in checkBox handler, we will just reRender.
 
 function creatCmpltHeader() {
+  let $div = document.createElement("div");
   let $ul = document.createElement("ul");
   let $hr = document.createElement("hr");
   let $completedHeader = document.createElement("h2");
@@ -248,10 +253,11 @@ function creatCmpltHeader() {
   $hr.classList.add("hr");
   $completedHeader.appendChild(document.createTextNode("Completed Tasks"));
 
-  document.querySelector("body > section ").appendChild($ul);
-  $ul.appendChild($hr);
-  $ul.appendChild($completedHeader);
-  $ul.appendChild($br);
+  document.querySelector("body > section").appendChild($div);
+  $div.appendChild($hr);
+  $div.appendChild($completedHeader);
+  $div.appendChild($br);
+  $div.appendChild($ul);
 }
 
 function clearAllBtn() {
@@ -284,3 +290,13 @@ function completedTasksHandler(task, taskId) {
   // Removing Edit Button in Completed Tasks Section
   editBtn.classList.toggle("cmplt-edit-btn");
 }
+
+function startApp() {
+  loadFromLocalStorage(); // Try to load list from Local Storage
+
+  if (toDo_list.length > 0) {
+    loadTasks();
+  }
+}
+
+startApp();
