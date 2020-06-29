@@ -7,7 +7,7 @@ html {
   box-sizing: inherit;
 }
 body {
-  background-color: rgba(215, 228, 233, 0.411);
+  background-color: rgba(215, 233, 227, 0.411);
 }
 
 .to-do-container {
@@ -17,15 +17,22 @@ body {
   border-radius: 0.7em;
   justify-content: center;
   text-align: center;
-  background-color: rgba(253, 201, 185, 0.889);
+  background-color: rgba(188, 240, 237, 0.789);
 }
 
 .new-task {
+  margin: 5px 1px;
+  padding: 6px 1px;
   list-style-type: none;
-  border: 0.5px solid rgba(177, 174, 174, 0.528);
-  border-radius: 0.6em;
+  border-bottom: 0.5px solid rgba(177, 174, 174, 0.528);
+  border-radius: 0.3em;
   display: grid;
   grid-template-columns: 0.25fr 8fr 1.5fr 1.5fr;
+}
+
+.new-task:hover {
+  background-color: rgba(250, 235, 215, 0.587);
+  transition: 0.2s;
 }
 
 .del-btn {
@@ -53,10 +60,11 @@ body {
   display: none;
 }
 .cmpltTasksSec > .new-task {
-  opacity: 0.4;
+  opacity: 0.45;
 }
 
 .cmpltTasksSec > .new-task:hover {
   opacity: 1;
+  background-color: rgba(250, 235, 215, 0.587);
   transition: 0.3s;
 }
