@@ -7,22 +7,22 @@ html {
   box-sizing: inherit;
 }
 body {
-  background-color: rgba(197, 224, 233, 0.411);
+  background-color: rgba(215, 228, 233, 0.411);
 }
 
 .to-do-container {
   margin: 5% 20%;
   padding: 2% 4%;
-  border: 2px solid red;
+  border: 3px solid rgba(236, 236, 225, 0.383);
   border-radius: 0.7em;
   justify-content: center;
   text-align: center;
-  background-color: rgba(240, 240, 211, 0.685);
+  background-color: rgba(253, 201, 185, 0.889);
 }
 
 .new-task {
   list-style-type: none;
-  border: 1px solid grey;
+  border: 0.5px solid rgba(177, 174, 174, 0.528);
   border-radius: 0.6em;
   display: grid;
   grid-template-columns: 0.25fr 8fr 1.5fr 1.5fr;
@@ -51,4 +51,12 @@ body {
 
 .cmplt-edit-btn {
   display: none;
+}
+.cmpltTasksSec > .new-task {
+  opacity: 0.4;
+}
+
+.cmpltTasksSec > .new-task:hover {
+  opacity: 1;
+  transition: 0.3s;
 }
