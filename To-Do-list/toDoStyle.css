@@ -68,3 +68,6 @@ body {
   background-color: rgba(250, 235, 215, 0.587);
   transition: 0.3s;
 }
+.lbl:focus {
+  outline: none;
+}

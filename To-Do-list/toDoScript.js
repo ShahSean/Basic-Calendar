@@ -89,13 +89,16 @@ function addTask(task) {
   let checkBox = document.createElement("input");
 
   newTask.setAttribute("data-task-id", task.idNum);
+  // taskText.setAttribute("contenteditable", true);
   checkBox.type = "checkbox";
 
+  taskText.addEventListener("click", editText);
   delBtn.addEventListener("click", removeHandler);
   editBtn.addEventListener("click", editHandler);
   checkBox.addEventListener("change", checkBoxHandler);
 
   // Adding appropriate classes to each element
+  taskText.classList.add("lbl");
   newTask.classList.add("new-task");
   delBtn.classList.add("del-btn");
   editBtn.classList.add("edit-btn");
@@ -111,6 +114,47 @@ function addTask(task) {
   newTask.appendChild(taskText);
   newTask.appendChild(editBtn);
   newTask.appendChild(delBtn);
+}
+// This function creates a listener to detect if
+// there was a click inside/outside of the given element
+function docListener(elem) {
+  let inElem = false;
+  document.addEventListener("click", (evt) => {
+    let targetElem = evt.target;
+    do {
+      if (targetElem === elem) {
+        console.log("Clicked inside : ");
+        return inElem;
+      }
+      targetElem = targetElem.parentNode;
+    } while (targetElem);
+    inElem = true;
+    console.log("clicked outside + " + inElem);
+    return inElem;
+  });
+}
+
+function editText(e) {
+  let taskId = e.target.parentElement.getAttribute("data-task-id");
+  // const text = document.querySelector(".lbl");
+  const foundIndex = toDo_list.findIndex((el) => {
+    return el.idNum === taskId;
+  });
+
+  let lbl = document.querySelector(
+    "[data-task-id=" + CSS.escape(taskId) + "] > label"
+  );
+  let text = lbl.innerHTML;
+
+  lbl.setAttribute("contenteditable", true);
+  // If there was any click outside of the Label area, go and save it in
+  // local storage
+  if (docListener(lbl) == true) {
+    // Changing Local storage with the new value
+    console.log("I got in");
+    toDo_list[foundIndex].text = text;
+    commitToLocalStorage(toDo_list);
+  }
 }
 
 // This funciton handles the Deltion
