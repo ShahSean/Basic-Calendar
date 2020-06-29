@@ -115,6 +115,7 @@ function addTask(task) {
   newTask.appendChild(editBtn);
   newTask.appendChild(delBtn);
 }
+
 // This function creates a listener to detect if
 // there was a click inside/outside of the given element
 function docListener(elem) {
@@ -136,7 +137,6 @@ function docListener(elem) {
 
 function editText(e) {
   let taskId = e.target.parentElement.getAttribute("data-task-id");
-  // const text = document.querySelector(".lbl");
   const foundIndex = toDo_list.findIndex((el) => {
     return el.idNum === taskId;
   });
@@ -145,16 +145,16 @@ function editText(e) {
     "[data-task-id=" + CSS.escape(taskId) + "] > label"
   );
   let text = lbl.innerHTML;
-
+  // Add edit to the Contents of Label element for editing each text
   lbl.setAttribute("contenteditable", true);
   // If there was any click outside of the Label area, go and save it in
   // local storage
-  if (docListener(lbl) == true) {
+  if (docListener(lbl)) {
     // Changing Local storage with the new value
-    console.log("I got in");
     toDo_list[foundIndex].text = text;
     commitToLocalStorage(toDo_list);
   }
+  return;
 }
 
 // This funciton handles the Deltion
