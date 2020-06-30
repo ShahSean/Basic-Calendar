@@ -321,22 +321,9 @@ function clearAllBtn() {
 
 // This functions handles the behaviour of the Clear All Button
 function clearAllHandler() {
-  // trash = toDo_list.filter(function (task) {
-  //   task.isDone == true;
-  // });
-  // console.log(toDo_list);
-  // console.log(JSON.stringify(toDo_list));
-  // console.log(JSON.stringify(trash));
-  // console.log(" Trash is : " + trash);
-  toDo_list.forEach(function (data) {
-    if (data.isDone === true) {
-      trash = data;
-      console.log(trash);
-      toDo_list.splice(toDo_list.indexOf(data), 1);
-      console.log("This is toDo List : " + JSON.stringify(toDo_list));
-      commitToLocalStorage(toDo_list);
-    }
-  });
+  trash = toDo_list.filter((task) => task.isDone == true);
+  toDo_list = toDo_list.filter((task) => task.isDone == false);
+  commitToLocalStorage(toDo_list);
   reRender();
 }
 
