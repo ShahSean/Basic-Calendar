@@ -1,5 +1,6 @@
 // Setting up Data Structure
 let toDo_list = [];
+let trash = [];
 
 function loadFromLocalStorage() {
   const tasks = localStorage.getItem("tasks");
@@ -92,7 +93,7 @@ function addTask(task) {
   // taskText.setAttribute("contenteditable", true);
   checkBox.type = "checkbox";
 
-  taskText.addEventListener("click", editText);
+  // taskText.addEventListener("click", editText);
   delBtn.addEventListener("click", removeHandler);
   editBtn.addEventListener("click", editHandler);
   checkBox.addEventListener("change", checkBoxHandler);
@@ -118,44 +119,44 @@ function addTask(task) {
 
 // This function creates a listener to detect if
 // there was a click inside/outside of the given element
-function docListener(elem) {
-  let inElem = false;
-  document.addEventListener("click", (evt) => {
-    let targetElem = evt.target;
-    do {
-      if (targetElem === elem) {
-        console.log("Clicked inside : ");
-        return inElem;
-      }
-      targetElem = targetElem.parentNode;
-    } while (targetElem);
-    inElem = true;
-    console.log("clicked outside + " + inElem);
-    return inElem;
-  });
-}
+// function docListener(elem) {
+//   let inElem = false;
+//   document.addEventListener("click", (evt) => {
+//     let targetElem = evt.target;
+//     do {
+//       if (targetElem === elem) {
+//         console.log("Clicked inside : ");
+//         return inElem;
+//       }
+//       targetElem = targetElem.parentNode;
+//     } while (targetElem);
+//     inElem = true;
+//     console.log("clicked outside + " + inElem);
+//     return inElem;
+//   });
+// }
 
-function editText(e) {
-  let taskId = e.target.parentElement.getAttribute("data-task-id");
-  const foundIndex = toDo_list.findIndex((el) => {
-    return el.idNum === taskId;
-  });
+// function editText(e) {
+//   let taskId = e.target.parentElement.getAttribute("data-task-id");
+//   const foundIndex = toDo_list.findIndex((el) => {
+//     return el.idNum === taskId;
+//   });
 
-  let lbl = document.querySelector(
-    "[data-task-id=" + CSS.escape(taskId) + "] > label"
-  );
-  let text = lbl.innerHTML;
-  // Add edit to the Contents of Label element for editing each text
-  lbl.setAttribute("contenteditable", true);
-  // If there was any click outside of the Label area, go and save it in
-  // local storage
-  if (docListener(lbl)) {
-    // Changing Local storage with the new value
-    toDo_list[foundIndex].text = text;
-    commitToLocalStorage(toDo_list);
-  }
-  return;
-}
+//   let lbl = document.querySelector(
+//     "[data-task-id=" + CSS.escape(taskId) + "] > label"
+//   );
+//   let text = lbl.innerHTML;
+//   // Add edit to the Contents of Label element for editing each text
+//   lbl.setAttribute("contenteditable", true);
+//   // If there was any click outside of the Label area, go and save it in
+//   // local storage
+//   if (docListener(lbl)) {
+//     // Changing Local storage with the new value
+//     toDo_list[foundIndex].text = text;
+//     commitToLocalStorage(toDo_list);
+//   }
+//   return;
+// }
 
 // This funciton handles the Deltion
 function removeHandler(e) {
@@ -304,6 +305,7 @@ function creatCmpltHeader() {
   $div.appendChild($ul);
 }
 
+// This function creates the Clear All Button
 function clearAllBtn() {
   let $div = document.createElement("div");
   let $clrBtn = document.createElement("button");
@@ -312,8 +314,30 @@ function clearAllBtn() {
   $clrBtn.appendChild(document.createTextNode("Clear All"));
   $div.classList.add("clr-btn");
 
+  $clrBtn.addEventListener("click", clearAllHandler);
   cmpltSec.after($div);
   $div.appendChild($clrBtn);
+}
+
+// This functions handles the behaviour of the Clear All Button
+function clearAllHandler() {
+  // trash = toDo_list.filter(function (task) {
+  //   task.isDone == true;
+  // });
+  // console.log(toDo_list);
+  // console.log(JSON.stringify(toDo_list));
+  // console.log(JSON.stringify(trash));
+  // console.log(" Trash is : " + trash);
+  toDo_list.forEach(function (data) {
+    if (data.isDone === true) {
+      trash = data;
+      console.log(trash);
+      toDo_list.splice(toDo_list.indexOf(data), 1);
+      console.log("This is toDo List : " + JSON.stringify(toDo_list));
+      commitToLocalStorage(toDo_list);
+    }
+  });
+  reRender();
 }
 
 // This Function handles the tasks after they have been checked as completed
