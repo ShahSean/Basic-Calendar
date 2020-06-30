@@ -1,12 +1,12 @@
 // Setting up Data Structure
-let toDo_list = [];
+let toDoList = [];
 let trash = [];
 
 function loadFromLocalStorage() {
   const tasks = localStorage.getItem("tasks");
 
   if (tasks) {
-    toDo_list = JSON.parse(tasks);
+    toDoList = JSON.parse(tasks);
   }
 }
 
@@ -50,20 +50,20 @@ function addKeyPressHandler(e, func) {
 // clear button is created only once
 let completedSectionCreated = false;
 
-// This function creates the UI for the current Tasks from the toDo_list array
+// This function creates the UI for the current Tasks from the toDoList array
 function loadTasks() {
-  for (let j = 0; j < toDo_list.length; j++) {
+  for (let j = 0; j < toDoList.length; j++) {
     // Checking if the Task has been marked as completed
-    if (toDo_list[j].isDone === true) {
+    if (toDoList[j].isDone === true) {
       // Check to see wether the completed section has already been created
       if (!completedSectionCreated) {
         creatCmpltHeader();
         clearAllBtn();
         completedSectionCreated = true;
       }
-      completedTasksHandler(toDo_list[j], toDo_list[j].idNum);
+      completedTasksHandler(toDoList[j], toDoList[j].idNum);
     } else {
-      addTask(toDo_list[j]);
+      addTask(toDoList[j]);
     }
   }
 }
@@ -76,9 +76,9 @@ function addNewTask(task) {
     isDone: false,
     idNum: uniqueID,
   };
-  toDo_list.push(data);
+  toDoList.push(data);
   addTask(data);
-  commitToLocalStorage(toDo_list);
+  commitToLocalStorage(toDoList);
 }
 
 // This Function Add the Tasks
@@ -138,7 +138,7 @@ function addTask(task) {
 
 // function editText(e) {
 //   let taskId = e.target.parentElement.getAttribute("data-task-id");
-//   const foundIndex = toDo_list.findIndex((el) => {
+//   const foundIndex = toDoList.findIndex((el) => {
 //     return el.idNum === taskId;
 //   });
 
@@ -152,8 +152,8 @@ function addTask(task) {
 //   // local storage
 //   if (docListener(lbl)) {
 //     // Changing Local storage with the new value
-//     toDo_list[foundIndex].text = text;
-//     commitToLocalStorage(toDo_list);
+//     toDoList[foundIndex].text = text;
+//     commitToLocalStorage(toDoList);
 //   }
 //   return;
 // }
@@ -163,13 +163,13 @@ function removeHandler(e) {
   const removeId = e.target.parentElement.getAttribute("data-task-id");
 
   if (confirm("Are you sure ?!")) {
-    const foundIndex = toDo_list.findIndex((el) => {
+    const foundIndex = toDoList.findIndex((el) => {
       return el.idNum === removeId;
     });
 
-    toDo_list.splice(foundIndex, 1);
+    toDoList.splice(foundIndex, 1);
 
-    commitToLocalStorage(toDo_list);
+    commitToLocalStorage(toDoList);
     reRender();
   }
 }
@@ -250,12 +250,12 @@ function afterEditReplace(source, newType, id) {
   newElem.innerHTML = text;
 
   // Searching for the appropriate index in local storage
-  const foundIndex = toDo_list.findIndex((el) => {
+  const foundIndex = toDoList.findIndex((el) => {
     return el.idNum === id;
   });
   // Changing Local storage with the new value
-  toDo_list[foundIndex].text = text;
-  commitToLocalStorage(toDo_list);
+  toDoList[foundIndex].text = text;
+  commitToLocalStorage(toDoList);
 
   // Replace the source element with the new element on the page
   source.parentNode.replaceChild(newElem, source);
@@ -264,21 +264,21 @@ function afterEditReplace(source, newType, id) {
 function checkBoxHandler(e) {
   let taskId = e.target.parentElement.getAttribute("data-task-id");
   // Searching for the appropriate index in local storage
-  const foundIndex = toDo_list.findIndex((el) => {
+  const foundIndex = toDoList.findIndex((el) => {
     return el.idNum === taskId;
   });
   // If the checkbox is checked
   if (this.checked) {
     // Apply changes to UI and move it to completed section
     // Changing Local storage with the new value
-    toDo_list[foundIndex].isDone = true;
-    commitToLocalStorage(toDo_list);
+    toDoList[foundIndex].isDone = true;
+    commitToLocalStorage(toDoList);
     reRender();
   }
   // If the task is not completed yet set isDone to false
   else {
-    toDo_list[foundIndex].isDone = false;
-    commitToLocalStorage(toDo_list);
+    toDoList[foundIndex].isDone = false;
+    commitToLocalStorage(toDoList);
     reRender();
   }
 }
@@ -321,9 +321,9 @@ function clearAllBtn() {
 
 // This functions handles the behaviour of the Clear All Button
 function clearAllHandler() {
-  trash = toDo_list.filter((task) => task.isDone == true);
-  toDo_list = toDo_list.filter((task) => task.isDone == false);
-  commitToLocalStorage(toDo_list);
+  trash = toDoList.filter((task) => task.isDone == true);
+  toDoList = toDoList.filter((task) => task.isDone == false);
+  commitToLocalStorage(toDoList);
   reRender();
 }
 
@@ -349,7 +349,7 @@ function completedTasksHandler(task, taskId) {
 function startApp() {
   loadFromLocalStorage(); // Try to load list from Local Storage
 
-  if (toDo_list.length > 0) {
+  if (toDoList.length > 0) {
     loadTasks();
   }
 }

@@ -71,3 +71,20 @@ body {
 .lbl:focus {
   outline: none;
 }
+#search-button {
+  float: right;
+  background-color: rgba(104, 173, 230, 0.633);
+  border: none;
+  border-radius: 0.4em;
+  margin: 4px 4px;
+}
+
+#search-button:hover {
+  background-color: rgba(85, 166, 231, 0.842);
+}
+#search-bar {
+  float: right;
+  margin: 4px 4px;
+  padding: 2px 2px;
+  display: none;
+}
