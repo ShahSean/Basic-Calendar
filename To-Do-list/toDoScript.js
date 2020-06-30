@@ -346,6 +346,24 @@ function completedTasksHandler(task, taskId) {
   editBtn.classList.toggle("cmplt-edit-btn");
 }
 
+// This function handles the behaviour of the Search Button
+function searchBtnHandler() {
+  let srchBtn = document.querySelector(".search-button");
+  srchBtn.addEventListener("mouseover", searchBarStyleHandler);
+}
+
+// This function handles the Style of Search bar
+function searchBarStyleHandler() {
+  let srchBar = document.querySelector(".search-bar");
+  console.log("hi");
+  if (srchBar.style.display === "none") {
+    srchBar.classList.toggle("search-bar:active");
+  } else {
+    srchBar.classList.toggle("search-bar");
+  }
+}
+searchBtnHandler();
+
 function startApp() {
   loadFromLocalStorage(); // Try to load list from Local Storage
 

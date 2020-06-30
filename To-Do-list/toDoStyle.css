@@ -79,12 +79,20 @@ body {
   margin: 4px 4px;
 }
 
-#search-button:hover {
+.search-button:hover {
   background-color: rgba(85, 166, 231, 0.842);
 }
-#search-bar {
+.search-bar {
   float: right;
+  display: none;
   margin: 4px 4px;
   padding: 2px 2px;
   display: none;
+  width: 5px;
+  transition: all 0.9s ease-out;
+}
+.search-bar:active {
+  display: inline-block;
+  width: 100px;
+  transition: all 0.9s ease-in;
 }
