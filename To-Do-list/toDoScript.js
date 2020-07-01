@@ -103,6 +103,12 @@ function addTask(task) {
   editBtn.addEventListener("click", editHandler);
   checkBox.addEventListener("change", checkBoxHandler);
 
+  //
+  newTask.addEventListener("dragover", dragOver);
+  newTask.addEventListener("dragenter", dragEnter);
+  newTask.addEventListener("dragleave", dragLeave);
+  newTask.addEventListener("dragdrop", dragDrop);
+
   // Adding appropriate classes to each element
   taskText.classList.add("lbl");
   newTask.classList.add("new-task");
@@ -327,6 +333,28 @@ function searchBarHander(e) {
       element.style.display = "none";
     }
   });
+}
+function reOrder() {
+  console.log("bla");
+}
+
+function dragStart() {
+  console.log("Start");
+}
+function dragEnd() {
+  console.log("End");
+}
+function dragDrop() {
+  console.log("Drop");
+}
+function dragEnter() {
+  console.log("Enter");
+}
+function dragLeave() {
+  console.log("Leave");
+}
+function dragOver() {
+  console.log("Over");
 }
 
 function startApp() {
