@@ -94,6 +94,7 @@ function addTask(task) {
   let checkBox = document.createElement("input");
 
   newTask.setAttribute("data-task-id", task.idNum);
+  newTask.setAttribute("draggable", true);
   // taskText.setAttribute("contenteditable", true);
   checkBox.type = "checkbox";
 
@@ -120,47 +121,6 @@ function addTask(task) {
   newTask.appendChild(editBtn);
   newTask.appendChild(delBtn);
 }
-
-// This function creates a listener to detect if
-// there was a click inside/outside of the given element
-// function docListener(elem) {
-//   let inElem = false;
-//   document.addEventListener("click", (evt) => {
-//     let targetElem = evt.target;
-//     do {
-//       if (targetElem === elem) {
-//         console.log("Clicked inside : ");
-//         return inElem;
-//       }
-//       targetElem = targetElem.parentNode;
-//     } while (targetElem);
-//     inElem = true;
-//     console.log("clicked outside + " + inElem);
-//     return inElem;
-//   });
-// }
-
-// function editText(e) {
-//   let taskId = e.target.parentElement.getAttribute("data-task-id");
-//   const foundIndex = toDoList.findIndex((el) => {
-//     return el.idNum === taskId;
-//   });
-
-//   let lbl = document.querySelector(
-//     "[data-task-id=" + CSS.escape(taskId) + "] > label"
-//   );
-//   let text = lbl.innerHTML;
-//   // Add edit to the Contents of Label element for editing each text
-//   lbl.setAttribute("contenteditable", true);
-//   // If there was any click outside of the Label area, go and save it in
-//   // local storage
-//   if (docListener(lbl)) {
-//     // Changing Local storage with the new value
-//     toDoList[foundIndex].text = text;
-//     commitToLocalStorage(toDoList);
-//   }
-//   return;
-// }
 
 // This funciton handles the Deltion
 function removeHandler(e) {

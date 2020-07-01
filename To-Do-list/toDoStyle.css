@@ -90,7 +90,7 @@ body {
   width: 0px;
   display: inline-block;
   transition: all 0.4s ease-out;
-  transition-delay: 1s;
+  transition-delay: 0.5s;
   opacity: 0;
 }
 
