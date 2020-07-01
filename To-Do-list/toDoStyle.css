@@ -72,6 +72,14 @@ body {
   outline: none;
 }
 
+.search-box {
+  float: left;
+}
+.search-button {
+  background-color: rgba(113, 176, 228, 0.633);
+  border: none;
+  border-radius: 0.4em;
+}
 .search-button:hover {
   background-color: rgba(85, 166, 231, 0.842);
 }
@@ -80,18 +88,17 @@ body {
   margin: 4px 4px;
   padding: 2px 2px;
   width: 0px;
-  transition: all 0.3s ease-out;
   display: inline-block;
+  transition: all 0.4s ease-out;
+  transition-delay: 1s;
   opacity: 0;
 }
 
-/* .search-bar:active {
-  width: 100px;
-  transition: all 2s ease-in;
-} */
-
 .search-bar:focus,
 .search-box:hover .search-bar {
+  animation-delay: 3s;
+  transition: all 0.5s ease-in;
+  transition-delay: 0.25s;
   width: 250px;
   opacity: 1;
 }

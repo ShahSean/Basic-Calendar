@@ -346,34 +346,6 @@ function completedTasksHandler(task, taskId) {
   editBtn.classList.toggle("cmplt-edit-btn");
 }
 
-// // This function handles the behaviour of the Search Button
-// function searchBtnHandler() {
-//   let srchBtn = document.querySelector(".search-button");
-//   srchBtn.addEventListener("mouseover", searchBarMouseIn);
-//   srchBtn.addEventListener("mouseout", searchBarMouseOut);
-// }
-
-// // This function handles the Style of Search bar
-// function searchBarMouseIn(e) {
-//   let srchBar = document.querySelector(".search-bar");
-//   // e.preventDefault();
-//   if (srchBar.classList.contains("search-bar-hidden")) {
-//     srchBar.classList.remove("search-bar-hidden");
-//     srchBar.focus();
-//   }
-// }
-
-// function searchBarMouseOut(e) {
-//   let srchBar = document.querySelector(".search-bar");
-//   // e.preventDefault();
-//   if (!srchBar.classList.contains("search-bar-hidden")) {
-//     srchBar.classList.add("search-bar-hidden");
-//     srchBar.blur();
-//   }
-// }
-
-// searchBtnHandler();
-
 function startApp() {
   loadFromLocalStorage(); // Try to load list from Local Storage
 
