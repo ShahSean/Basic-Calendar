@@ -354,18 +354,23 @@ function searchBarHander(e) {
   // console.log("hi");
   let inputText = e.target.value.toLowerCase();
   console.log("Input is: " + inputText);
-
   toDoList.filter(function (task) {
     let taskText = task.text;
-    console.log("this is : " + taskText);
-    console.log("This is task : " + JSON.stringify(task));
+    let Id = task.idNum;
+    let elm = document.querySelector("#usr-input");
+
+    console.log("TASK is  : " + JSON.stringify(task));
+    console.log("ID is : " + Id);
+    console.log("Text is : " + taskText);
+    console.log("elm is : " + JSON.stringify(elm));
+
     if (taskText.toLowerCase().indexOf(inputText) != -1) {
-      task.style.display = "block";
+      console.log("-----------------------");
+      // elm.style.display = "block";
     } else {
-      task.style.display = "none";
+      // elm.style.display = "none";
     }
   });
-  // filter through the toDoList and use the given if statement and then rerender()
 }
 
 function startApp() {
