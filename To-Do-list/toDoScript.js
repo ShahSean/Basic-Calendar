@@ -356,11 +356,13 @@ function searchBarHander(e) {
   console.log("Input is: " + inputText);
   toDoList.filter(function (task) {
     let taskText = task.text;
-    let Id = task.idNum;
-    let elm = document.querySelector("#usr-input");
+    let taskId = task.idNum;
+    let elm = document.querySelector(
+      "[data-task-id=" + CSS.escape(taskId) + "]"
+    );
 
     console.log("TASK is  : " + JSON.stringify(task));
-    console.log("ID is : " + Id);
+    console.log("ID is : " + taskId);
     console.log("Text is : " + taskText);
     console.log("elm is : " + JSON.stringify(elm));
 
