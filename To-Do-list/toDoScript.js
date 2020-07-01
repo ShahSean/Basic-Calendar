@@ -350,27 +350,21 @@ function completedTasksHandler(task, taskId) {
   editBtn.classList.toggle("cmplt-edit-btn");
 }
 
+// This function handles the functionality of Search Bar
 function searchBarHander(e) {
-  // console.log("hi");
   let inputText = e.target.value.toLowerCase();
-  console.log("Input is: " + inputText);
+  // Filtering the list based on user's input in Search bar
   toDoList.filter(function (task) {
     let taskText = task.text;
     let taskId = task.idNum;
-    let elm = document.querySelector(
+    let element = document.querySelector(
       "[data-task-id=" + CSS.escape(taskId) + "]"
     );
-
-    console.log("TASK is  : " + JSON.stringify(task));
-    console.log("ID is : " + taskId);
-    console.log("Text is : " + taskText);
-    console.log("elm is : " + JSON.stringify(elm));
-
+    // if the user's input was found in the list, show that, and hide others
     if (taskText.toLowerCase().indexOf(inputText) != -1) {
-      console.log("-----------------------");
-      // elm.style.display = "block";
+      element.style.display = "grid";
     } else {
-      // elm.style.display = "none";
+      element.style.display = "none";
     }
   });
 }
