@@ -353,13 +353,16 @@ function searchBtnHandler() {
 }
 
 // This function handles the Style of Search bar
-function searchBarStyleHandler() {
+function searchBarStyleHandler(e) {
   let srchBar = document.querySelector(".search-bar");
-  console.log("hi");
+  e.preventDefault();
   if (srchBar.style.display === "none") {
-    srchBar.classList.toggle("search-bar:active");
+    console.log("** Active **");
+    srchBar.classList.add("active");
   } else {
-    srchBar.classList.toggle("search-bar");
+    srchBar.classList.remove("active");
+    console.log("Display is : " + srchBar.style.display);
+    console.log("inactive");
   }
 }
 searchBtnHandler();
