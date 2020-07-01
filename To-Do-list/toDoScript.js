@@ -28,10 +28,14 @@ function timeStamp() {
 
 let usrInput = document.getElementById("usr-input");
 let subBtn = document.querySelector("#submit-btn");
+let srchBar = document.querySelector(".search-bar");
 
 // Submit Button Event Listeners
 subBtn.addEventListener("click", addBtnClickHandler);
 usrInput.addEventListener("keypress", addKeyPressHandler);
+
+// Search bar Listeners
+srchBar.addEventListener("keyup", searchBarHander);
 
 // Add-To-List Button handler
 function addBtnClickHandler(e) {
@@ -344,6 +348,24 @@ function completedTasksHandler(task, taskId) {
   lbl.classList.add("cmplt-task");
   // Removing Edit Button in Completed Tasks Section
   editBtn.classList.toggle("cmplt-edit-btn");
+}
+
+function searchBarHander(e) {
+  // console.log("hi");
+  let inputText = e.target.value.toLowerCase();
+  console.log("Input is: " + inputText);
+
+  toDoList.filter(function (task) {
+    let taskText = task.text;
+    console.log("this is : " + taskText);
+    console.log("This is task : " + JSON.stringify(task));
+    if (taskText.toLowerCase().indexOf(inputText) != -1) {
+      task.style.display = "block";
+    } else {
+      task.style.display = "none";
+    }
+  });
+  // filter through the toDoList and use the given if statement and then rerender()
 }
 
 function startApp() {
