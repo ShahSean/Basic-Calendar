@@ -267,6 +267,7 @@ function creatCmpltHeader() {
   let $br = document.createElement("br");
 
   $ul.classList.add("cmpltTasksSec");
+  $ul.classList.add("taskContainer");
   $hr.classList.add("hr");
   $completedHeader.appendChild(document.createTextNode("Completed Tasks"));
 
@@ -362,6 +363,11 @@ function dragEnter(e) {
   e.preventDefault();
 }
 
+function dragOverContainer() {
+  // cmpltTasksSec
+  // tasks
+  e.preventDefault();
+}
 //
 function dragOver(e) {
   console.log("Over");
