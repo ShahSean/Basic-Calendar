@@ -342,6 +342,8 @@ function searchBarHander(e) {
 function reOrder() {
   console.log("bla");
 }
+// Putting both New Tasks and Completed tasks into one variable
+let containers = document.querySelectorAll(".taskContainers");
 
 //
 function dragStart(task) {
@@ -363,11 +365,27 @@ function dragEnter(e) {
   e.preventDefault();
 }
 
-function dragOverContainer() {
-  // cmpltTasksSec
-  // tasks
-  e.preventDefault();
-}
+containers.forEach((container) => {
+  container.addEventListener("dragover", (e) => {
+    e.preventDefault();
+    const elementAfter = getDragAfterElemenet(container, e.clientY);
+    // The item that we are currently dragging
+    const draggable = document.querySelector(".dragging");
+    if (elementAfter == null) {
+      container.appendChild(draggable);
+    } else {
+      container.insertBefore(draggable, elementAfter);
+    }
+  });
+});
+
+function getDragAfterElemenet
+
+// function dragOverContainer() {
+//   // cmpltTasksSec
+//   // tasks
+//   e.preventDefault();
+// }
 //
 function dragOver(e) {
   console.log("Over");
