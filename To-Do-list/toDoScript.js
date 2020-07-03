@@ -103,11 +103,13 @@ function addTask(task) {
   editBtn.addEventListener("click", editHandler);
   checkBox.addEventListener("change", checkBoxHandler);
 
-  //
+  // Draggable Listeners
+  newTask.addEventListener("dragstart", dragStart(newTask));
   newTask.addEventListener("dragover", dragOver);
   newTask.addEventListener("dragenter", dragEnter);
   newTask.addEventListener("dragleave", dragLeave);
   newTask.addEventListener("dragdrop", dragDrop);
+  newTask.addEventListener("dragend", dragEnd(newTask));
 
   // Adding appropriate classes to each element
   taskText.classList.add("lbl");
@@ -334,29 +336,59 @@ function searchBarHander(e) {
     }
   });
 }
+
+/////////////////
 function reOrder() {
   console.log("bla");
 }
 
-function dragStart() {
-  console.log("Start");
-}
-function dragEnd() {
-  console.log("End");
-}
-function dragDrop() {
-  console.log("Drop");
-}
-function dragEnter() {
-  console.log("Enter");
-}
-function dragLeave() {
-  console.log("Leave");
-}
-function dragOver() {
-  console.log("Over");
+//
+function dragStart(task) {
+  console.log("start");
+  setTimeout((fun) => (task.style.display = "none"), 0);
+  task.classList.add("dragging");
 }
 
+//
+function dragEnd(task) {
+  console.log("End");
+  setTimeout((fun) => (task.style.display = "grid"), 0);
+  task.classList.remove("dragging");
+}
+
+//
+function dragEnter(e) {
+  console.log("Enter");
+  e.preventDefault();
+}
+
+//
+function dragOver(e) {
+  console.log("Over");
+  e.preventDefault();
+}
+
+//
+function dragDrop(e) {
+  console.log("Drop");
+  let prevSibling = e.previousSibling;
+  // If it's not being added to the beginning of the list
+  if (prevSibling) {
+    prevSibling.nextSibling = this;
+    console.log("prev sibling is here");
+  } else {
+    // If it's being added to the beginning of the list
+    console.log("beginning");
+  }
+}
+
+//
+function dragLeave() {
+  // e.preventDefault();
+  console.log("Leave");
+}
+
+/////////////////////////////////
 function startApp() {
   loadFromLocalStorage(); // Try to load list from Local Storage
 
