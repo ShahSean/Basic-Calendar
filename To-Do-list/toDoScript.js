@@ -339,29 +339,25 @@ function searchBarHander(e) {
 }
 
 /////////////////
-function reOrder() {
-  console.log("bla");
-}
+function reOrder() {}
 // Putting both New Tasks and Completed tasks into one variable
 let containers = document.querySelectorAll(".taskContainers");
 
 //
 function dragStart(task) {
   console.log("start");
-  setTimeout((fun) => (task.style.display = "none"), 0);
   task.classList.add("dragging");
+  setTimeout((fun) => (task.style.display = "none"), 0);
 }
 
 //
 function dragEnd(task) {
-  console.log("End");
   setTimeout((fun) => (task.style.display = "grid"), 0);
   task.classList.remove("dragging");
 }
 
 //
 function dragEnter(e) {
-  console.log("Enter");
   e.preventDefault();
 }
 
@@ -379,7 +375,23 @@ containers.forEach((container) => {
   });
 });
 
-function getDragAfterElemenet
+function getDragAfterElemenet(container, y) {
+  const draggableElements = [
+    ...container.querySelectorAll(".draggable:not(.dragging"),
+  ];
+  return draggableElements.reduce(
+    (closest, containerChild) => {
+      const box = containerChild.getBoundingClientRec();
+      const offset = y - box.top - box.height / 2;
+      if (offset < 0 && offset > closest.offset) {
+        return { offset: offset, element: containerChild };
+      } else {
+        return closest;
+      }
+    },
+    { offset: Number.NEGATIVE_INFINITY }
+  ).element;
+}
 
 // function dragOverContainer() {
 //   // cmpltTasksSec
@@ -388,28 +400,18 @@ function getDragAfterElemenet
 // }
 //
 function dragOver(e) {
-  console.log("Over");
+  // console.log("Over");
   e.preventDefault();
 }
 
 //
 function dragDrop(e) {
-  console.log("Drop");
-  let prevSibling = e.previousSibling;
-  // If it's not being added to the beginning of the list
-  if (prevSibling) {
-    prevSibling.nextSibling = this;
-    console.log("prev sibling is here");
-  } else {
-    // If it's being added to the beginning of the list
-    console.log("beginning");
-  }
+  e.preventDefault();
 }
 
 //
 function dragLeave() {
   // e.preventDefault();
-  console.log("Leave");
 }
 
 /////////////////////////////////
