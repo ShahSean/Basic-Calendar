@@ -7,7 +7,8 @@ html {
   box-sizing: inherit;
 }
 body {
-  background-color: rgba(215, 233, 227, 0.411);
+  background-image: url("./img/bckgrd.jpg");
+  background-color: rgba(215, 233, 227, 0.811);
 }
 
 .to-do-container {
@@ -17,7 +18,7 @@ body {
   border-radius: 0.7em;
   justify-content: center;
   text-align: center;
-  background-color: rgba(188, 240, 237, 0.789);
+  background-color: rgba(188, 240, 237, 0.689);
 }
 
 .new-task {

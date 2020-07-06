@@ -105,10 +105,6 @@ function addTask(task) {
 
   // Draggable Listeners
   newTask.addEventListener("dragstart", dragStart);
-  // newTask.addEventListener("dragover", dragOver);
-  // newTask.addEventListener("dragenter", dragEnter);
-  // newTask.addEventListener("dragleave", dragLeave);
-  // newTask.addEventListener("dragdrop", dragDrop);
   newTask.addEventListener("dragend", dragEnd);
 
   // Adding appropriate classes to each element
@@ -343,18 +339,21 @@ function searchBarHander(e) {
 // Drag and Drop
 ///////////////////////////////////
 
+// This function identifies in which container the task is being dragged
+// into, and acts accordingly.
 function containerDistinction() {
-  console.log("I was called");
   // Putting both New Tasks and Completed tasks into one variable
   let containers = document.querySelectorAll(".task-containers");
   containers.forEach((container) => {
     container.addEventListener("dragover", (e) => {
       e.preventDefault();
-      const elementAfter = getDragAfterElemenet(container, e.clientY);
+      const elementAfter = getDragNextElemenet(container, e.clientY);
+      console.log("Element After is : ", elementAfter);
       // The item that we are currently dragging
       const draggable = document.querySelector(".dragging");
       if (elementAfter == null) {
         container.appendChild(draggable);
+        reorderLclStorage(draggable, elementAfter);
       } else {
         container.insertBefore(draggable, elementAfter);
       }
@@ -366,18 +365,18 @@ function containerDistinction() {
 // our current element that's been dragged
 // If it's at the end of the container, it would return nothing, so
 // we know that we need to append it to the end.
-function getDragAfterElemenet(container, y) {
+function getDragNextElemenet(container, y) {
   const draggableElements = [
     ...container.querySelectorAll(".draggable:not(.dragging)"),
   ];
   return draggableElements.reduce(
-    (closest, containerChild) => {
-      const box = containerChild.getBoundingClientRect();
+    (closest, tsk) => {
+      const box = tsk.getBoundingClientRect();
       // The space between the center of the box and our mouse cursor
       const offset = y - box.top - box.height / 2;
       // When we are above a Box, we get negtive numbers !
       if (offset < 0 && offset > closest.offset) {
-        return { offset: offset, element: containerChild };
+        return { offset: offset, element: tsk };
       } else {
         return closest;
       }
@@ -385,6 +384,10 @@ function getDragAfterElemenet(container, y) {
     { offset: Number.NEGATIVE_INFINITY }
   ).element;
 }
+
+// This function reorders the Local Storage based on
+// the user's new sorting done by drag & Drop
+function reorderLclStorage(draggable, elementAfter) {}
 
 // This function will be called when a drag is started
 function dragStart(e) {
@@ -398,6 +401,10 @@ function dragEnd(e) {
   setTimeout((fun) => (e.target.style.display = "grid"), 0);
   e.target.classList.remove("dragging");
 }
+
+///////////////////////////////////
+////////
+///////////////////////////////////
 
 // This function Starts the App
 function startApp() {
