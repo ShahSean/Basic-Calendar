@@ -61,7 +61,7 @@ function loadTasks() {
     if (toDoList[j].isDone === true) {
       // Check to see wether the completed section has already been created
       if (!completedSectionCreated) {
-        creatCmpltHeader();
+        // e();
         clearAllBtn();
         completedSectionCreated = true;
       }
@@ -104,7 +104,9 @@ function addTask(task) {
   checkBox.addEventListener("change", checkBoxHandler);
 
   // Draggable Listeners
-  newTask.addEventListener("dragstart", dragStart(newTask));
+  newTask.addEventListener("dragstart", () => {
+    newTask.classList.add("dragging");
+  });
   newTask.addEventListener("dragover", dragOver);
   newTask.addEventListener("dragenter", dragEnter);
   newTask.addEventListener("dragleave", dragLeave);
@@ -338,17 +340,19 @@ function searchBarHander(e) {
   });
 }
 
-/////////////////
+///////////////////////////////////////////////////
+/////////////////////////////////
+///////////////////////////////////////////////////
 function reOrder() {}
 // Putting both New Tasks and Completed tasks into one variable
 let containers = document.querySelectorAll(".taskContainers");
 
 //
-function dragStart(task) {
-  console.log("start");
-  task.classList.add("dragging");
-  setTimeout((fun) => (task.style.display = "none"), 0);
-}
+// function dragStart(task) {
+//   console.log("start");
+//   task.classList.add("dragging");
+//   setTimeout((fun) => (task.style.display = "none"), 0);
+// }
 
 //
 function dragEnd(task) {
@@ -414,7 +418,9 @@ function dragLeave() {
   // e.preventDefault();
 }
 
+///////////////////////////////////////////////////
 /////////////////////////////////
+///////////////////////////////////////////////////
 function startApp() {
   loadFromLocalStorage(); // Try to load list from Local Storage
 
