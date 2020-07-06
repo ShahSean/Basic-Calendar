@@ -104,14 +104,12 @@ function addTask(task) {
   checkBox.addEventListener("change", checkBoxHandler);
 
   // Draggable Listeners
-  newTask.addEventListener("dragstart", () => {
-    newTask.classList.add("dragging");
-  });
+  newTask.addEventListener("dragstart", dragStart);
   newTask.addEventListener("dragover", dragOver);
   newTask.addEventListener("dragenter", dragEnter);
   newTask.addEventListener("dragleave", dragLeave);
   newTask.addEventListener("dragdrop", dragDrop);
-  newTask.addEventListener("dragend", dragEnd(newTask));
+  newTask.addEventListener("dragend", dragEnd);
 
   // Adding appropriate classes to each element
   taskText.classList.add("lbl");
@@ -348,16 +346,17 @@ function reOrder() {}
 let containers = document.querySelectorAll(".taskContainers");
 
 //
-// function dragStart(task) {
-//   console.log("start");
-//   task.classList.add("dragging");
-//   setTimeout((fun) => (task.style.display = "none"), 0);
-// }
+function dragStart(e) {
+  console.log("start");
+  console.log(e);
+  e.target.classList.add("dragging");
+  setTimeout((fun) => (e.target.style.display = "none"), 0);
+}
 
 //
-function dragEnd(task) {
-  setTimeout((fun) => (task.style.display = "grid"), 0);
-  task.classList.remove("dragging");
+function dragEnd(e) {
+  setTimeout((fun) => (e.target.style.display = "grid"), 0);
+  e.target.classList.remove("dragging");
 }
 
 //
@@ -365,6 +364,7 @@ function dragEnter(e) {
   e.preventDefault();
 }
 
+//
 containers.forEach((container) => {
   container.addEventListener("dragover", (e) => {
     e.preventDefault();
@@ -379,6 +379,7 @@ containers.forEach((container) => {
   });
 });
 
+//
 function getDragAfterElemenet(container, y) {
   const draggableElements = [
     ...container.querySelectorAll(".draggable:not(.dragging"),
