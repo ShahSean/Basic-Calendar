@@ -267,7 +267,7 @@ function createCmpltHeader() {
   let $br = document.createElement("br");
 
   $ul.classList.add("cmpltTasksSec");
-  $ul.classList.add("taskContainer");
+  $ul.classList.add("task-container");
   $hr.classList.add("hr");
   $completedHeader.appendChild(document.createTextNode("Completed Tasks"));
 
@@ -342,27 +342,9 @@ function searchBarHander(e) {
 /////////////////////////////////
 ///////////////////////////////////////////////////
 function reOrder() {}
+
 // Putting both New Tasks and Completed tasks into one variable
-let containers = document.querySelectorAll(".taskContainers");
-
-//
-function dragStart(e) {
-  console.log("start");
-  console.log(e);
-  e.target.classList.add("dragging");
-  setTimeout((fun) => (e.target.style.display = "none"), 0);
-}
-
-//
-function dragEnd(e) {
-  setTimeout((fun) => (e.target.style.display = "grid"), 0);
-  e.target.classList.remove("dragging");
-}
-
-//
-function dragEnter(e) {
-  e.preventDefault();
-}
+let containers = document.querySelectorAll(".task-container");
 
 //
 containers.forEach((container) => {
@@ -382,13 +364,14 @@ containers.forEach((container) => {
 //
 function getDragAfterElemenet(container, y) {
   const draggableElements = [
-    ...container.querySelectorAll(".draggable:not(.dragging"),
+    ...container.querySelectorAll(".draggable:not(.dragging)"),
   ];
   return draggableElements.reduce(
     (closest, containerChild) => {
-      const box = containerChild.getBoundingClientRec();
+      const box = containerChild.getBoundingClientRect();
       const offset = y - box.top - box.height / 2;
       if (offset < 0 && offset > closest.offset) {
+        console.log({ offset: offset, element: containerChild });
         return { offset: offset, element: containerChild };
       } else {
         return closest;
@@ -396,6 +379,23 @@ function getDragAfterElemenet(container, y) {
     },
     { offset: Number.NEGATIVE_INFINITY }
   ).element;
+}
+
+//
+function dragStart(e) {
+  e.target.classList.add("dragging");
+  setTimeout((fun) => (e.target.style.display = "none"), 0);
+}
+
+//
+function dragEnd(e) {
+  setTimeout((fun) => (e.target.style.display = "grid"), 0);
+  e.target.classList.remove("dragging");
+}
+
+//
+function dragEnter(e) {
+  e.preventDefault();
 }
 
 // function dragOverContainer() {
