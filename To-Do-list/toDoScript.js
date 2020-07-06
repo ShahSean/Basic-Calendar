@@ -105,15 +105,16 @@ function addTask(task) {
 
   // Draggable Listeners
   newTask.addEventListener("dragstart", dragStart);
-  newTask.addEventListener("dragover", dragOver);
-  newTask.addEventListener("dragenter", dragEnter);
-  newTask.addEventListener("dragleave", dragLeave);
-  newTask.addEventListener("dragdrop", dragDrop);
+  // newTask.addEventListener("dragover", dragOver);
+  // newTask.addEventListener("dragenter", dragEnter);
+  // newTask.addEventListener("dragleave", dragLeave);
+  // newTask.addEventListener("dragdrop", dragDrop);
   newTask.addEventListener("dragend", dragEnd);
 
   // Adding appropriate classes to each element
   taskText.classList.add("lbl");
   newTask.classList.add("new-task");
+  newTask.classList.add("draggable");
   delBtn.classList.add("del-btn");
   editBtn.classList.add("edit-btn");
   checkBox.classList.add("check-box");
@@ -267,7 +268,7 @@ function createCmpltHeader() {
   let $br = document.createElement("br");
 
   $ul.classList.add("cmpltTasksSec");
-  $ul.classList.add("task-container");
+  $ul.classList.add("task-containers");
   $hr.classList.add("hr");
   $completedHeader.appendChild(document.createTextNode("Completed Tasks"));
 
@@ -338,30 +339,33 @@ function searchBarHander(e) {
   });
 }
 
-///////////////////////////////////////////////////
-/////////////////////////////////
-///////////////////////////////////////////////////
-function reOrder() {}
+///////////////////////////////////
+// Drag and Drop
+///////////////////////////////////
 
-// Putting both New Tasks and Completed tasks into one variable
-let containers = document.querySelectorAll(".task-container");
-
-//
-containers.forEach((container) => {
-  container.addEventListener("dragover", (e) => {
-    e.preventDefault();
-    const elementAfter = getDragAfterElemenet(container, e.clientY);
-    // The item that we are currently dragging
-    const draggable = document.querySelector(".dragging");
-    if (elementAfter == null) {
-      container.appendChild(draggable);
-    } else {
-      container.insertBefore(draggable, elementAfter);
-    }
+function containerDistinction() {
+  console.log("I was called");
+  // Putting both New Tasks and Completed tasks into one variable
+  let containers = document.querySelectorAll(".task-containers");
+  containers.forEach((container) => {
+    container.addEventListener("dragover", (e) => {
+      e.preventDefault();
+      const elementAfter = getDragAfterElemenet(container, e.clientY);
+      // The item that we are currently dragging
+      const draggable = document.querySelector(".dragging");
+      if (elementAfter == null) {
+        container.appendChild(draggable);
+      } else {
+        container.insertBefore(draggable, elementAfter);
+      }
+    });
   });
-});
+}
 
-//
+// This function would return the element after
+// our current element that's been dragged
+// If it's at the end of the container, it would return nothing, so
+// we know that we need to append it to the end.
 function getDragAfterElemenet(container, y) {
   const draggableElements = [
     ...container.querySelectorAll(".draggable:not(.dragging)"),
@@ -369,9 +373,10 @@ function getDragAfterElemenet(container, y) {
   return draggableElements.reduce(
     (closest, containerChild) => {
       const box = containerChild.getBoundingClientRect();
+      // The space between the center of the box and our mouse cursor
       const offset = y - box.top - box.height / 2;
+      // When we are above a Box, we get negtive numbers !
       if (offset < 0 && offset > closest.offset) {
-        console.log({ offset: offset, element: containerChild });
         return { offset: offset, element: containerChild };
       } else {
         return closest;
@@ -381,47 +386,20 @@ function getDragAfterElemenet(container, y) {
   ).element;
 }
 
-//
+// This function will be called when a drag is started
 function dragStart(e) {
   e.target.classList.add("dragging");
+  containerDistinction();
   setTimeout((fun) => (e.target.style.display = "none"), 0);
 }
 
-//
+// This function will be called when a drag is ended
 function dragEnd(e) {
   setTimeout((fun) => (e.target.style.display = "grid"), 0);
   e.target.classList.remove("dragging");
 }
 
-//
-function dragEnter(e) {
-  e.preventDefault();
-}
-
-// function dragOverContainer() {
-//   // cmpltTasksSec
-//   // tasks
-//   e.preventDefault();
-// }
-//
-function dragOver(e) {
-  // console.log("Over");
-  e.preventDefault();
-}
-
-//
-function dragDrop(e) {
-  e.preventDefault();
-}
-
-//
-function dragLeave() {
-  // e.preventDefault();
-}
-
-///////////////////////////////////////////////////
-/////////////////////////////////
-///////////////////////////////////////////////////
+// This function Starts the App
 function startApp() {
   loadFromLocalStorage(); // Try to load list from Local Storage
 
