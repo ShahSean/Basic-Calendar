@@ -61,7 +61,7 @@ function loadTasks() {
     if (toDoList[j].isDone === true) {
       // Check to see wether the completed section has already been created
       if (!completedSectionCreated) {
-        // e();
+        createCmpltHeader();
         clearAllBtn();
         completedSectionCreated = true;
       }
@@ -261,7 +261,7 @@ function checkBoxHandler(e) {
 // and then in loadtask we make the rest of the tasks
 // in checkBox handler, we will just reRender.
 
-function creatCmpltHeader() {
+function createCmpltHeader() {
   let $div = document.createElement("div");
   let $ul = document.createElement("ul");
   let $hr = document.createElement("hr");
