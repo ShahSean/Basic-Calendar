@@ -348,14 +348,13 @@ function containerDistinction() {
     container.addEventListener("dragover", (e) => {
       e.preventDefault();
       const elementAfter = getDragNextElemenet(container, e.clientY);
-      console.log("Element After is : ", elementAfter);
       // The item that we are currently dragging
       const draggable = document.querySelector(".dragging");
       if (elementAfter == null) {
         container.appendChild(draggable);
-        reorderLclStorage(draggable, elementAfter);
       } else {
         container.insertBefore(draggable, elementAfter);
+        reorderLclStorage(draggable, elementAfter);
       }
     });
   });
@@ -387,7 +386,28 @@ function getDragNextElemenet(container, y) {
 
 // This function reorders the Local Storage based on
 // the user's new sorting done by drag & Drop
-function reorderLclStorage(draggable, elementAfter) {}
+function reorderLclStorage(draggable, elementAfter) {
+  let taskId = draggable.getAttribute("data-task-id");
+  let nextTaskId = elementAfter.getAttribute("data-task-id");
+
+  // Searching for the appropriate index in local storage
+  const taskIndex = toDoList.findIndex((el) => {
+    return el.idNum === taskId;
+  });
+  const nextTaskIndex = toDoList.findIndex((el) => {
+    return el.idNum === nextTaskId;
+  });
+  let temp = toDoList[taskIndex];
+  // get rid of the dragging task
+  // toDoList.splice(taskIndex, 1);
+  console.log("1st one : ", JSON.stringify(toDoList));
+  // console.log("2nd time : ", JSON.stringify(toDoList));
+  // Remove 0 elements before nextTaskIndex and insert temp before it
+  toDoList = toDoList.splice(nextTaskIndex, 0, temp);
+  console.log("2nd One : ", JSON.stringify(toDoList));
+
+  // commitToLocalStorage(toDoList);
+}
 
 // This function will be called when a drag is started
 function dragStart(e) {
