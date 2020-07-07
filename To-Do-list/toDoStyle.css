@@ -103,3 +103,8 @@ body {
   width: 250px;
   opacity: 1;
 }
+
+.dragging {
+  opacity: 0.5;
+  border: 1px dashed red;
+}
